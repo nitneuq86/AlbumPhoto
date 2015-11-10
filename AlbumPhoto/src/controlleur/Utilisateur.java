@@ -1,5 +1,6 @@
+package controlleur;
+
 import java.io.IOException;
-import java.nio.file.Path;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +18,12 @@ public class Utilisateur extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getPathInfo();
-		// Rechercher un utilisateur
-		if(path.compareTo("/")==0 || path==null) {
+		if(path==null || path.compareTo("/")==0) {
+			request.setAttribute("typeRecherche", "utilisateur");
 			this.getServletContext().getRequestDispatcher("/rechercher.jsp").forward(request, response);
+		}
+		else {
+			this.getServletContext().getRequestDispatcher("/utilisateur.jsp").forward(request, response);
 		}
 	}
 
