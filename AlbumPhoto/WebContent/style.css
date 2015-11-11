@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300italic,400");
+
 * {
 	margin: 0;
 	padding: 0;
-	font-family: Arial;
+	font-family: Roboto, Arial;
+	font-size: 16px;
 }
 
 ul {
@@ -11,29 +14,42 @@ ul {
 body {
 	width: 1000px;
 	margin: auto;
-	margin-top: 30px;
+	margin-top: 60px;
 	background: url(images/background.png) no-repeat center fixed;
 	background-size: cover;
 }
 
-body>header {
-	padding: 20px;
-}
-
 body>header h1 {
-	margin-left: 20px;
-	font-size: 50px;
-	font-weight: 100;
+	margin-left: 80px;
+	font-size: 80px;
+	line-height: 0.8;
+	font-weight: normal;
 }
 
 body>header h2 {
-	margin-left: 40px;
+	margin-left: 120px;
+	font-size: 26px;
 	font-weight: normal;
 	font-style: italic;
 }
 
 body>main {
+	margin-top: 20px;
 	background-color: rgba(255,255,255,0.9);
-	padding: 20px;
-	border-radius: 10px;
+	padding: 40px;
+	border-radius: 20px;
+}
+
+body>main>header {
+	margin-bottom: 20px;
+}
+
+body>main>header h2 {
+	font-size: 30px;
+}
+
+body>main>header h3 {
+	font-size: 20px;
+	font-style: italic;
+	font-weight: 400;
 }

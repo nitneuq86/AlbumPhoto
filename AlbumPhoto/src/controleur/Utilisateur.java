@@ -1,4 +1,4 @@
-package controlleur;
+package controleur;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import extra.Data;
 
 @WebServlet(urlPatterns={"/Utilisateur","/Utilisateur/*"})
 public class Utilisateur extends HttpServlet {
@@ -23,7 +25,16 @@ public class Utilisateur extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/rechercher.jsp").forward(request, response);
 		}
 		else {
-			this.getServletContext().getRequestDispatcher("/utilisateur.jsp").forward(request, response);
+			try {
+				int idRessource = Integer.parseInt(path.substring(1));
+				if(idRessource == 245) {
+					this.getServletContext().getRequestDispatcher("/utilisateur.jsp").forward(request, response);
+				}
+				else this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+			}
+			catch(NumberFormatException ex) {
+				this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+			}
 		}
 	}
 

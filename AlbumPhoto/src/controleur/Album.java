@@ -1,6 +1,10 @@
-package controlleur;
+package controleur;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,6 +30,7 @@ public class Album extends HttpServlet {
 		else {
 			try {
 				int idRessource = Integer.parseInt(path.substring(1));
+				
 				if(idRessource == 123) {
 					request.setAttribute("album", Data.getAlbumTest());
 					this.getServletContext().getRequestDispatcher("/album.jsp").forward(request, response);
@@ -35,7 +40,6 @@ public class Album extends HttpServlet {
 			catch(NumberFormatException ex) {
 				this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
 			}
-			
 		}
 	}
 
