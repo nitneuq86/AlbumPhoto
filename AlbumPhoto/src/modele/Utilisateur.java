@@ -8,6 +8,11 @@ public class Utilisateur {
 		this.personne = personne;
 		this.login = login;
 	}
+	
+	public Utilisateur(){
+		this.personne = null;
+		this.login = null;
+	}
 
 	public Personne getPersonne() {
 		return personne;
