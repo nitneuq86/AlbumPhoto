@@ -4,14 +4,18 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="../style.css">
+		<link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
 		<title>Ressource introuvable</title>
 	</head>
 	<body>
-		<c:import url="header.html"></c:import>
+		<c:import url="header.html"/>
 		<main>
-			<h2>Woup-tidou !</h2>
-			<p>Il semble que la ressource que vous avez demandée soit introuvable.</p>
+			<header>
+				<h2>Woup-tidou !</h2>
+			</header>
+			<section>
+				<p>Il semble que la ressource que vous avez demandée soit introuvable.</p>
+			</section>
 		</main>
 	</body>
 </html>
