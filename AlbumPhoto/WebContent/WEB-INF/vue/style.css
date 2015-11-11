@@ -53,3 +53,21 @@ body>main>header h3 {
 	font-style: italic;
 	font-weight: 400;
 }
+
+section.recherche>p,
+section.recherche>select {
+	display: inline;
+}
+
+section.recherche>select {
+	margin-left: 10px;
+}
+
+section.recherche>form {
+	margin-top: 20px;
+	display: none;
+}
+
+section.recherche>form.show {
+	display: block;
+}

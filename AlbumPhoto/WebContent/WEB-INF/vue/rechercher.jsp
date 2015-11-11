@@ -13,9 +13,24 @@
 			<header>
 				<h2>Rechercher</h2>
 			</header>
-			<section>
-				<form>
-					<input type="text">
+			<section class="recherche">
+				<p>Sur quoi porte votre recherche ?</p>
+				<select>
+					<option selected>Tout type de ressource</option>
+					<option>Une photo</option>
+					<option>Un album</option>
+					<option>Une personne</option>
+				</select>
+				<form class="all show">
+					<input type="submit" value="Rechercher">
+				</form>
+				<form class="photo">
+					<input type="submit" value="Rechercher">
+				</form>
+				<form class="album">
+					<input type="submit" value="Rechercher">
+				</form>
+				<form class="personne">
 					<input type="submit" value="Rechercher">
 				</form>
 			</section>
