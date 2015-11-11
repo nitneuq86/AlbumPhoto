@@ -66,8 +66,28 @@ section.recherche>select {
 section.recherche>form {
 	margin-top: 20px;
 	display: none;
+	text-align: right;
 }
 
 section.recherche>form.show {
+	display: inline-block;
+}
+
+section.recherche>form label {
 	display: block;
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+section.recherche>form table tr>td:first-child {
+	width: 100px;
+}
+
+section.recherche>form table input {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+section.recherche>form input[type="submit"] {
+	
 }

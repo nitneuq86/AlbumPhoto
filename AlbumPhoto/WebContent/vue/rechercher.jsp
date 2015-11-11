@@ -15,25 +15,88 @@
 			</header>
 			<section class="recherche">
 				<p>Sur quoi porte votre recherche ?</p>
-				<select>
-					<option selected>Tout type de ressource</option>
-					<option>Une photo</option>
-					<option>Un album</option>
-					<option>Une personne</option>
-				</select>
-				<form class="all show">
+				<select id="selecteur" onchange="afficherForm()">
+					<option <c:if test="${requestScope.typeRecherche == null}">selected</c:if>>Tout type de ressource</option>
+					<option <c:if test="${requestScope.typeRecherche == 'photo'}">selected</c:if>>Une photo</option>
+					<option <c:if test="${requestScope.typeRecherche == 'album'}">selected</c:if>>Un album</option>
+					<option <c:if test="${requestScope.typeRecherche == 'personne'}">selected</c:if>>Une personne</option>
+				</select><br/>
+				<form <c:if test="${requestScope.typeRecherche == null}">class="show"</c:if>>
+					<table>
+						<tr>
+							<td><label for="quoi">Quoi ?</label></td>
+							<td><input id="quoi" type="text"></td>
+						</tr>
+					</table>
+					<br/><input type="submit" value="Rechercher">
+				</form>
+				<form <c:if test="${requestScope.typeRecherche == 'photo'}">class="show"</c:if>>
+					<table>
+						<tr>
+							<td><label for="qui">Qui ?</label></td>
+							<td><input id="qui" type="text" placeholder="Une personne..."></td>
+						</tr>
+						<tr>
+							<td><label for="quoi">Quoi ?</label></td>
+							<td><input id="quoi" type="text" placeholder="Un objet..."></td>
+						</tr>
+						<tr>
+							<td><label for="ou">Où ?</label></td>
+							<td><input id="ou" type="text" placeholder="Un lieu..."></td>
+						</tr>
+						<tr>
+							<td><label for="quand">Quand ?</label></td>
+							<td><input id="quand" type="text" placeholder="Une date..."></td>
+						</tr>
+					</table>
 					<input type="submit" value="Rechercher">
 				</form>
-				<form class="photo">
+				<form <c:if test="${requestScope.typeRecherche == 'album'}">class="show"</c:if>>
+					<table>
+						<tr>
+							<td><label for="qui">Qui ?</label></td>
+							<td><input id="qui" type="text" placeholder="Une personne..."></td>
+						</tr>
+						<tr>
+							<td><label for="quoi">Quoi ?</label></td>
+							<td><input id="quoi" type="text" placeholder="Un objet..."></td>
+						</tr>
+						<tr>
+							<td><label for="ou">Où ?</label></td>
+							<td><input id="ou" type="text" placeholder="Un lieu..."></td>
+						</tr>
+						<tr>
+							<td><label for="quand">Quand ?</label></td>
+							<td><input id="quand" type="text" placeholder="Une date..."></td>
+						</tr>
+					</table>
 					<input type="submit" value="Rechercher">
 				</form>
-				<form class="album">
-					<input type="submit" value="Rechercher">
-				</form>
-				<form class="personne">
+				<form <c:if test="${requestScope.typeRecherche == 'personne'}">class="show"</c:if>>
+					<table>
+						<tr>
+							<td><label for="qui">Qui ?</label></td>
+							<td><input id="qui" type="text" placeholder="Nom, prénom..."></td>
+						</tr>
+					</table>
 					<input type="submit" value="Rechercher">
 				</form>
 			</section>
 		</main>
+		<script type="text/javascript">
+			var afficherForm = function() {
+				var index = document.getElementById("selecteur").selectedIndex;
+				var formulaires = document.getElementsByTagName("form");
+				for(var i=0; i< formulaires.length; i++) {
+					var classList = formulaires[i].classList;
+					if(i == index) {
+						if(!classList.contains("show")) classList.add("show");
+					}
+					else {
+						if(classList.contains("show")) classList.remove("show");
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
