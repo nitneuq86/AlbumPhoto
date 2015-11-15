@@ -19,7 +19,10 @@ public class Connexion extends HttpServlet {
 	public static final String ATT_USER         = "utilisateur";
     public static final String ATT_FORM         = "form";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
-    public static final String VUE              = "/connexion.jsp";
+    public static final String VUE         		= "/vue/connexion.jsp";
+    public static final String VUE_FAIL         = "/vue/connexion.jsp";
+    public static final String VUE_SUCCESS      = "/Album/123";
+    
        
     public Connexion() {
         super();
@@ -35,12 +38,16 @@ public class Connexion extends HttpServlet {
 		HttpSession session = request.getSession();
 		 if (formConnexion.getErreurs().isEmpty()) {
 	            session.setAttribute(ATT_SESSION_USER, utilisateur);
+	            response.sendRedirect(request.getContextPath() + VUE_SUCCESS);
+	            
 	        } else {
 	            session.setAttribute(ATT_SESSION_USER, null);
+	            request.setAttribute(ATT_FORM, formConnexion);
+	            request.setAttribute(ATT_USER, utilisateur);
+	            this.getServletContext().getRequestDispatcher(VUE_FAIL).forward(request, response);
 	        }
-		request.setAttribute(ATT_FORM, formConnexion);
-        request.setAttribute(ATT_USER, utilisateur);
-        this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		
+        
 	}
 
 }
