@@ -9,7 +9,7 @@ import extra.Data;
 import modele.Utilisateur;
 
 public class FormConnexion {
-	private static final String CHAMP_LOGIN  = "email";
+	private static final String CHAMP_LOGIN  = "login";
     private static final String CHAMP_PASS   = "pass";
     private String resultat;
     private Map<String, String> erreurs = new HashMap<String, String>();
@@ -35,10 +35,10 @@ public class FormConnexion {
         }
         
         if ( erreurs.isEmpty() ) {
-            resultat = "Succès de l'inscription.";
+            resultat = "Succès de la connexion.";
             
         } else {
-            resultat = "Échec de l'inscription.";
+            resultat = "Échec de connexion.";
         }
 
         return utilisateur;

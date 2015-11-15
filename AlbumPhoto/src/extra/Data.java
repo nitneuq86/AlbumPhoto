@@ -25,9 +25,9 @@ public class Data {
 		boolean UtilisateurTrouve = false;
 		int i=0;
 		while(!UtilisateurTrouve && i<bddUtilisateurs.size()){
-			if(bddUtilisateurs.get(i).getLogin() == login){
+			if(bddUtilisateurs.get(i).getLogin().equals(login)){
 				UtilisateurTrouve = true;
-				if(pass == "prout"){
+				if(pass.equals("prout")){
 					return bddUtilisateurs.get(i);
 				}
 			}
