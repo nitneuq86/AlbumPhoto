@@ -9,7 +9,7 @@
 		<title>Adresse inconnue</title>
 	</head>
 	<body>
-		<c:import url="header.html"/>
+		<c:import url="header.jsp"/>
 		<main>
 			<header>
 				<h2>Vous êtes perdu ?</h2>

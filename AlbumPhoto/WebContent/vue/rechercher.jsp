@@ -8,12 +8,12 @@
 		<title>Rechercher</title>
 	</head>
 	<body>
-		<c:import url="header.html"/>
+		<c:import url="header.jsp"/>
 		<main>
 			<header>
 				<h2>Rechercher</h2>
 			</header>
-			<section class="recherche">
+			<section id="rechercheSection">
 				<p>Sur quoi porte votre recherche ?</p>
 				<select id="selecteur" onchange="afficherForm()">
 					<option <c:if test="${requestScope.typeRecherche == null}">selected</c:if>>Tout type de ressource</option>
@@ -25,7 +25,7 @@
 					<table>
 						<tr>
 							<td><label for="quoi">Quoi ?</label></td>
-							<td><input id="quoi" type="text"></td>
+							<td><input id="quoi" type="text" placeholder="Photo, album, personne..."></td>
 						</tr>
 					</table>
 					<br/><input type="submit" value="Rechercher">
@@ -86,7 +86,8 @@
 		<script type="text/javascript">
 			var afficherForm = function() {
 				var index = document.getElementById("selecteur").selectedIndex;
-				var formulaires = document.getElementsByTagName("form");
+				var formulaires = document.getElementById("rechercheSection").getElementsByTagName("form");
+				console.log(formulaires);
 				for(var i=0; i< formulaires.length; i++) {
 					var classList = formulaires[i].classList;
 					if(i == index) {

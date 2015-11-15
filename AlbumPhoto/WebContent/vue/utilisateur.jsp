@@ -9,7 +9,7 @@
 		<title>Utilisateur <c:out value="${requestScope.album.titre}"/></title>
 	</head>
 	<body>
-		<c:import url="header.html"/>
+		<c:import url="header.jsp"/>
 		<main>
 			<header>
 				<h3>Utilisateur</h3>

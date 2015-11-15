@@ -8,7 +8,7 @@
 		<title>Ressource introuvable</title>
 	</head>
 	<body>
-		<c:import url="header.html"/>
+		<c:import url="header.jsp"/>
 		<main>
 			<header>
 				<h2>Woup-tidou !</h2>
