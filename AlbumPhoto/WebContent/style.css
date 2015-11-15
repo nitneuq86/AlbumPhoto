@@ -19,22 +19,43 @@ body {
 	background-size: cover;
 }
 
-body>header h1 {
+body>header {
+	position: relative;
+}
+
+body>header>section.module {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	text-align: right;
+	/*background-color: rgba(41,121,255,0.3);*/
+	background-color: rgba(255,255,255,0.6);
+	border: 1px rgba(0,0,0,0.2) solid;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+body>header>section.banner>h1 {
 	margin-left: 80px;
 	font-size: 80px;
 	line-height: 0.8;
 	font-weight: normal;
 }
 
-body>header h2 {
+body>header>section.banner>h2 {
 	margin-left: 120px;
 	font-size: 26px;
 	font-weight: normal;
 	font-style: italic;
 }
 
+body>header>section.module>form {
+	margin-top: 10px;
+}
+
 body>main {
 	margin-top: 20px;
+	margin-bottom: 20px;
 	background-color: rgba(255,255,255,0.9);
 	padding: 40px;
 	border-radius: 20px;
@@ -52,4 +73,78 @@ body>main>header h3 {
 	font-size: 20px;
 	font-style: italic;
 	font-weight: 400;
+}
+
+body>main>section>article>h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+body>main>section>article ul.photos>li {
+	display: inline-block;
+	background-color: white;
+	-webkit-box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
+	box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+body>main>section>article ul.photos>li>img {
+	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+	width: 140px;
+	height: 120px;
+	padding-left: 140px;
+}
+
+body>main>section>article ul.photos>li>p {
+	margin-top: 10px;
+	font-family: Indie Flower, Roboto, Arial;
+	font-weight: bold;
+	text-align: center;
+	font-size: 18pt;
+	line-height: 1;
+}
+
+body>main>section>article>ul>li {
+	margin-top: 5px;
+}
+
+section#rechercheSection>p,
+section#rechercheSection>select {
+	display: inline;
+}
+
+section#rechercheSection>select {
+	margin-left: 10px;
+}
+
+section#rechercheSection>form {
+	margin-top: 20px;
+	display: none;
+	text-align: right;
+}
+
+section#rechercheSection>form.show {
+	display: inline-block;
+}
+
+section#rechercheSection>form label {
+	display: block;
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+section#rechercheSection>form table tr>td:first-child {
+	width: 100px;
+}
+
+section#rechercheSection>form table input {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+section#rechercheSection>form input[type="submit"] {
+	
 }

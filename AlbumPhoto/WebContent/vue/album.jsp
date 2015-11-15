@@ -6,10 +6,11 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
+		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 		<title>Album "<c:out value="${requestScope.album.titre}"/>"</title>
 	</head>
 	<body>
-		<c:import url="header.html"/>
+		<c:import url="header.jsp"/>
 		<main>
 			<header>
 				<h3>Album</h3>
@@ -21,13 +22,19 @@
 					<ul>
 						<li>Créateur : <a href="<c:out value="${pageContext.servletContext.contextPath}"/>/Utilisateur/"><c:out value="${requestScope.album.createur}"/></a></li>
 						<li>Date de création : <fmt:formatDate pattern="EEEE dd MMMM yyyy" value="${requestScope.album.dateCreation}"/></li>
+						<li>Personne(s) :</li>
+						<li>Lieu(x) :</li>
+						<li>Objet(s) :</li>
 					</ul>
 				</article>
 				<article>
 					<h3>Photos</h3>
-					<ul>
-						<c:forEach var="photo" items="${requestScope.album.photos}">
-							<li><c:out value="${photo}"/></li>
+					<ul class="photos">
+						<c:forEach var="photo" items="${requestScope.album.photos}" varStatus="num">
+							<li>
+								<img src="<c:out value="${photo}"/>" style="background:url(<c:out value="${photo}"/>) center; background-size:cover;"/>
+								<p>${num.index+1}</p>
+							</li>
 						</c:forEach>
 					</ul>
 				</article>

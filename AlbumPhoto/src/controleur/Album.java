@@ -25,7 +25,7 @@ public class Album extends HttpServlet {
 		String path = request.getPathInfo();
 		if(path==null || path.compareTo("/")==0) {
 			request.setAttribute("typeRecherche", "album");
-			this.getServletContext().getRequestDispatcher("/rechercher.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/vue/rechercher.jsp").forward(request, response);
 		}
 		else {
 			try {
@@ -33,12 +33,12 @@ public class Album extends HttpServlet {
 				
 				if(idRessource == 123) {
 					request.setAttribute("album", Data.getAlbumTest());
-					this.getServletContext().getRequestDispatcher("/album.jsp").forward(request, response);
+					this.getServletContext().getRequestDispatcher("/vue/album.jsp").forward(request, response);
 				}
-				else this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+				else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 			}
 			catch(NumberFormatException ex) {
-				this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+				this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 			}
 		}
 	}

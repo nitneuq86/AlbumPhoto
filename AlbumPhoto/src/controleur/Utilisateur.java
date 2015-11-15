@@ -22,20 +22,19 @@ public class Utilisateur extends HttpServlet {
 		String path = request.getPathInfo();
 		if(path==null || path.compareTo("/")==0) {
 			request.setAttribute("typeRecherche", "utilisateur");
-			this.getServletContext().getRequestDispatcher("/rechercher.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/vue/rechercher.jsp").forward(request, response);
 		}
 		else {
 			try {
 				int idRessource = Integer.parseInt(path.substring(1));
 				if(idRessource == 245) {
-					this.getServletContext().getRequestDispatcher("/utilisateur.jsp").forward(request, response);
+					this.getServletContext().getRequestDispatcher("/vue/utilisateur.jsp").forward(request, response);
 				}
-				else this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+				else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 			}
 			catch(NumberFormatException ex) {
-				this.getServletContext().getRequestDispatcher("/ressourceIntrouvable.jsp").forward(request, response);
+				this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 			}
 		}
 	}
-
 }
