@@ -3,6 +3,7 @@ package extra;
 import java.util.ArrayList;
 import java.util.Date;
 
+import controleur.Connexion;
 import modele.Album;
 import modele.Personne;
 import modele.Utilisateur;
@@ -11,7 +12,7 @@ public class Data {
 	private static ArrayList<Utilisateur> bddUtilisateurs = new ArrayList<Utilisateur>();
 	
 	public static Album getAlbumTest() {
-		Album album = new Album("Mes photos perso", "Quentin", new Date());
+		Album album = new Album("Mes photos perso", new Date(), new Personne("Myriam", "Abdel-Fattah"));
 		album.ajouterPhoto("http://img0.mxstatic.com/wallpapers/44e535006cffbc1b6e41f72d5e9df1e4_large.jpeg");
 		album.ajouterPhoto("http://www.unesourisetmoi.info/wall32/images/paysage-fonds-ecran_04.jpg");
 		album.ajouterPhoto("http://lemag.promovacances.com/wp-content/uploads/2013/08/Paysage-portugal.jpg");

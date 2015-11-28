@@ -2,41 +2,67 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javax.persistence.*;
 
+@Entity
 public class Album {
+	@Id
+	@GeneratedValue 
+	private int id;
 	private String titre;
-	private ArrayList<String> photos;
-	private String createur;
+	@ManyToOne
+	private Personne createur;
 	private Date dateCreation;
+	private ArrayList<String> photos;
 	
-	public Album(String titre, String createur, Date dateCreation) {
+	public Album() {}
+	
+	public Album(String titre, Date dateCreation, Personne createur) {
 		this.titre = titre;
 		this.createur = createur;
 		this.dateCreation = dateCreation;
-		this.photos = new ArrayList<>();
+		createur.getAlbums().add(this);
+		this.photos = new ArrayList<String>();
+	}
+	
+	public int getId() {
+		return id;
 	}
 
-	public String getTitre() {
-		return titre;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-
-	public String getCreateur() {
+	public Personne getCreateur() {
 		return createur;
 	}
 
+	public void setCreateur(Personne createur) {
+		this.createur = createur;
+	}
+	
+	public String getTitre() {
+		return titre;
+	}
+	
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+	
 	public Date getDateCreation() {
 		return dateCreation;
 	}
 	
-	public ArrayList<String> getPhotos() {
-		return photos;
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+	
+	public ArrayList<String> getPhotos(){
+		return this.photos;
 	}
 
 	public void ajouterPhoto(String photo) {
-		this.photos.add(photo);
+		if(photo != null)
+			this.photos.add(photo);
 	}
 }
