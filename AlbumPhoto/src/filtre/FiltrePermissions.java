@@ -18,7 +18,7 @@ import modele.Utilisateur;
 /**
  * Servlet Filter implementation class FiltrePermissions
  */
-@WebFilter(urlPatterns = {"/Album", "/Album/*"})
+@WebFilter(urlPatterns = {"/Album", "/Album/*", "/Photo", "/Photo/*"})
 public class FiltrePermissions implements Filter {
 	public static final String ACCES_PUBLIC        = "/Connexion";
 	

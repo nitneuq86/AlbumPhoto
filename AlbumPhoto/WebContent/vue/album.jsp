@@ -20,7 +20,8 @@
 				<article>
 					<h3>Informations</h3>
 					<ul>
-						<li>Créateur : <a href="<c:out value="${pageContext.servletContext.contextPath}"/>/Utilisateur/"><c:out value="${requestScope.album.createur}"/></a></li>
+						<li>Créateur : <a href="<c:out value="${pageContext.servletContext.contextPath}"/>/Utilisateur/"><c:out value="${requestScope.album.createur.prenom} ${requestScope.album.createur.nom}"/></a></li>
+						<li><c:url value="${pageContext.servletContext.contextPath}">Supprimer</c:url></li>
 						<li>Date de création : <fmt:formatDate pattern="EEEE dd MMMM yyyy" value="${requestScope.album.dateCreation}"/></li>
 						<li>Personne(s) :</li>
 						<li>Lieu(x) :</li>
