@@ -1,24 +1,15 @@
 package controleur;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.openjpa.util.IntId;
-
 import dao.DAOFactory;
 //import dao.DAOFactory;
 import extra.Data;
-import modele.Personne;
 
 @WebServlet(urlPatterns={"/Album","/Album/*"})
 public class Album extends HttpServlet {

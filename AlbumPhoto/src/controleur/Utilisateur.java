@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import extra.Data;
-
 @WebServlet(urlPatterns={"/Utilisateur","/Utilisateur/*"})
 public class Utilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
