@@ -8,6 +8,7 @@
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<class>modele.Personne</class>
 		<class>modele.Album</class>
+		<class>modele.Photo</class>
 		
 		<properties>
 		    <!-- property name="openjpa.RuntimeUnenhancedClasses" value="supported"/ --> 

@@ -9,6 +9,7 @@ public class DAOFactory {
 	private EntityManager em;
 	private PersonneDao personneDao;
 	private AlbumDao albumDao;
+	private PhotoDao photoDao;
 	
 	private DAOFactory() {
 		emf = Persistence.createEntityManagerFactory("DB");
@@ -23,7 +24,6 @@ public class DAOFactory {
 		if (personneDao==null) {
 			personneDao=new PersonneDao(em);
 		}
-		
 		return personneDao;
 	}
 	
@@ -31,8 +31,13 @@ public class DAOFactory {
 		if (albumDao==null) {
 			albumDao=new AlbumDao(em);
 		}
-		
 		return albumDao;
 	}
 	
+	public PhotoDao getPhotoDao() {
+		if (photoDao==null) {
+			photoDao=new PhotoDao(em);
+		}
+		return photoDao;
+	}
 }
