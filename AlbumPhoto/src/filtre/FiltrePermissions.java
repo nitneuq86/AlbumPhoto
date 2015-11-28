@@ -15,12 +15,10 @@ import javax.servlet.http.HttpSession;
 import controleur.Connexion;
 import modele.Utilisateur;
 
-/**
- * Servlet Filter implementation class FiltrePermissions
- */
-@WebFilter(urlPatterns = {"/Album", "/Album/*", "/Photo", "/Photo/*"})
+@WebFilter(urlPatterns = {"/Album", "/Album/*"})
 public class FiltrePermissions implements Filter {
-	public static final String ACCES_PUBLIC        = "/Connexion";
+	
+	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
     public FiltrePermissions() {
     }
@@ -30,11 +28,12 @@ public class FiltrePermissions implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpSession session = ((HttpServletRequest) request).getSession();
-		if(session.getAttribute(Connexion.ATT_SESSION_USER) != null){
+		if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
 			chain.doFilter(request, response);
-		} else {
-//			((HttpServletRequest) request).getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
-			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath() + ACCES_PUBLIC);
+		}
+		else {
+			session.setAttribute(ATT_CONNECTION_REQUESTED_URL, ((HttpServletRequest) request).getRequestURI());
+			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath() + "/Connexion");
 		}
 	}
 
