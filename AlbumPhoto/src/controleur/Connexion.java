@@ -8,46 +8,47 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import metier.FormConnexion;
+import extra.Data;
+import filtre.FiltrePermissions;
+import modele.Utilisateur;
 
-/**
- * Servlet implementation class Connexion
- */
 @WebServlet("/Connexion")
 public class Connexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String ATT_USER         = "utilisateur";
-    public static final String ATT_FORM         = "form";
-    public static final String ATT_SESSION_USER = "sessionUtilisateur";
-    public static final String VUE         		= "/vue/connexion.jsp";
-    public static final String VUE_FAIL         = "/vue/connexion.jsp";
-    public static final String VUE_SUCCESS      = "/Album/123";
-    
+	
+	public static String ATT_USER_SESSION = "sessionUtilisateur";
        
     public Connexion() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+		this.getServletContext().getRequestDispatcher("/vue/connexion.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		FormConnexion formConnexion = new FormConnexion();
-		modele.Utilisateur utilisateur = formConnexion.connexionUtilisateur(request);
+		Utilisateur utilisateur = Data.verificationUtilisateur(getValeurChamp(request, "login"), getValeurChamp(request, "pass"));
 		HttpSession session = request.getSession();
-		 if (formConnexion.getErreurs().isEmpty()) {
-	            session.setAttribute(ATT_SESSION_USER, utilisateur);
-	            response.sendRedirect(request.getContextPath() + VUE_SUCCESS);
-	            
-	        } else {
-	            session.setAttribute(ATT_SESSION_USER, null);
-	            request.setAttribute(ATT_FORM, formConnexion);
-	            request.setAttribute(ATT_USER, utilisateur);
-	            this.getServletContext().getRequestDispatcher(VUE_FAIL).forward(request, response);
-	        }
-		
-        
+		if(utilisateur != null) {
+			String requestedUrl = (String)session.getAttribute(FiltrePermissions.ATT_CONNECTION_REQUESTED_URL);
+			session.setAttribute(ATT_USER_SESSION, utilisateur);
+			session.removeAttribute(FiltrePermissions.ATT_CONNECTION_REQUESTED_URL);
+			if(requestedUrl != null) response.sendRedirect(requestedUrl);
+			else response.sendRedirect(request.getContextPath());
+		}
+		else {
+            request.setAttribute("utilisateur", request.getParameter("login"));
+            this.getServletContext().getRequestDispatcher("/vue/connexion.jsp").forward(request, response);
+		}
 	}
-
+	
+	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
+        String valeur = request.getParameter(nomChamp);
+        if(valeur == null || valeur.trim().length() == 0){
+        	return null;
+        }
+        else {
+            return valeur.trim();
+        }
+    }
 }
