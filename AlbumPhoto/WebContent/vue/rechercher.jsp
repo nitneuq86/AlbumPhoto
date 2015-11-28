@@ -31,7 +31,7 @@
 					<br/><input type="submit" value="Rechercher">
 				</form>
 				<form <c:if test="${requestScope.typeRecherche == 'photo'}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="qui">Qui ?</label></td>
 							<td><input id="qui" type="text" placeholder="Une personne..."></td>
@@ -52,7 +52,7 @@
 					<input type="submit" value="Rechercher">
 				</form>
 				<form <c:if test="${requestScope.typeRecherche == 'album'}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="qui">Qui ?</label></td>
 							<td><input id="qui" type="text" placeholder="Une personne..."></td>
