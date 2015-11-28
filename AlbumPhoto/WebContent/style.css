@@ -120,19 +120,28 @@ section#rechercheSection>select {
 	margin-left: 10px;
 }
 
-section#rechercheSection>form {
+form {
 	margin-top: 20px;
-	display: none;
+	display: inline-block;
 	text-align: right;
+}
+
+section#rechercheSection>form {
+	display: none;
 }
 
 section#rechercheSection>form.show {
 	display: inline-block;
 }
 
-section#rechercheSection>form label {
+table.formulaire label {
 	display: block;
 	text-align: right;
+	margin-bottom: 10px;
+}
+
+table.formulaire input {
+	margin-left: 20px;
 	margin-bottom: 10px;
 }
 
@@ -140,11 +149,7 @@ section#rechercheSection>form table tr>td:first-child {
 	width: 100px;
 }
 
-section#rechercheSection>form table input {
-	margin-left: 20px;
-	margin-bottom: 10px;
-}
-
-section#rechercheSection>form input[type="submit"] {
-	
+p.erreurConnexion {
+	color: red;
+	margin-top: 10px;
 }

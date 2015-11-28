@@ -22,7 +22,7 @@
 					<option <c:if test="${requestScope.typeRecherche == 'personne'}">selected</c:if>>Une personne</option>
 				</select><br/>
 				<form <c:if test="${requestScope.typeRecherche == null}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="quoi">Quoi ?</label></td>
 							<td><input id="quoi" type="text" placeholder="Photo, album, personne..."></td>
@@ -31,7 +31,7 @@
 					<br/><input type="submit" value="Rechercher">
 				</form>
 				<form <c:if test="${requestScope.typeRecherche == 'photo'}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="qui">Qui ?</label></td>
 							<td><input id="qui" type="text" placeholder="Une personne..."></td>
@@ -52,7 +52,7 @@
 					<input type="submit" value="Rechercher">
 				</form>
 				<form <c:if test="${requestScope.typeRecherche == 'album'}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="qui">Qui ?</label></td>
 							<td><input id="qui" type="text" placeholder="Une personne..."></td>
@@ -73,7 +73,7 @@
 					<input type="submit" value="Rechercher">
 				</form>
 				<form <c:if test="${requestScope.typeRecherche == 'personne'}">class="show"</c:if>>
-					<table>
+					<table class="formulaire">
 						<tr>
 							<td><label for="qui">Qui ?</label></td>
 							<td><input id="qui" type="text" placeholder="Nom, prénom..."></td>
