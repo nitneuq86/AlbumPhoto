@@ -4,28 +4,31 @@
 <html>
     <head>
         <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
         <title>Connexion</title>
     </head>
     <body>
-        <form method="post" action="Connexion">
-            <fieldset>
-                <legend>Connexion</legend>
-                <p>Vous pouvez vous connecter via ce formulaire.</p>
-
-                <label for="login">Login <span class="requis">*</span></label>
-                <input type="text" id="login" name="login" value="<c:out value="${utilisateur.login}"/>" size="20" maxlength="60" />
-                <br />
-
-                <label for="pass">Mot de passe <span class="requis">*</span></label>
-                <input type="password" id="pass" name="pass" value="" size="20" maxlength="20" />
-                <span class="erreur">${form.erreurs['login/pass']}</span>
-                <br />
-
-                <input type="submit" value="Connexion" class="sansLabel" />
-                <br />
-                
-                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
-            </fieldset>
-        </form>
+    	<c:import url="header.jsp"/>
+		<main>
+			<header>
+				<h2>Connexion</h2>
+			</header>
+			<section>
+				<form method="post" action="Connexion">
+					<table class="formulaire">
+						<tr>
+							<td><label for="login">Login :</label></td>
+							<td><input type="text" id="login" name="login" value="<c:out value="${utilisateur}"/>"/></td>
+						</tr>
+						<tr>
+							<td><label for="pass">Mot de passe :</label></td>
+							<td><input type="password" id="pass" name="pass" value=""/></td>
+						</tr>
+					</table>
+					<input type="submit" value="Connexion">
+					<c:if test="${utilisateur != null}"><p class="erreurConnexion">Combinaison login/mot de passe incorrecte</p></c:if>
+	        	</form>
+			</section>
+        </main>
     </body>
 </html>
