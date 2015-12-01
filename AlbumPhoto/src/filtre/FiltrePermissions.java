@@ -16,14 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controleur.Connexion;
-import modele.Utilisateur;
 
 @WebFilter("/*")
 public class FiltrePermissions implements Filter {
 	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
-	public static String[] cheminsAccessibles = {"/Connexion", "/ressources/.*"};
+	public static String[] cheminsAccessibles = {"/Accueil", "/Connexion", "/ressources/.*"};
 	
     public FiltrePermissions() {
     }
@@ -42,7 +41,8 @@ public class FiltrePermissions implements Filter {
         for(String cheminAccessible : cheminsAccessibles) {
         	Matcher matcher = (Pattern.compile(cheminAccessible)).matcher(path);
         	if(matcher.matches()) {
-        		chain.doFilter(request, response);
+        		if(path.equals("/Accueil")) request.getRequestDispatcher("/vue/accueil.jsp").forward(request, response);
+        		else chain.doFilter(request, response);
         		return;
         	}
         }
