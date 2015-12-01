@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
+		<link rel="stylesheet" type="text/css" href="<c:url value="/ressources/style.css"/>">
 		<title>Ressource introuvable</title>
 	</head>
 	<body>

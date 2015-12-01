@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/ressources/style.css"/>">
         <title>Connexion</title>
     </head>
     <body>
