@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
+		<link rel="stylesheet" type="text/css" href="<c:url value="/ressources/style.css"/>">
 		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 		<title>Album "<c:out value="${requestScope.album.titre}"/>"</title>
 	</head>

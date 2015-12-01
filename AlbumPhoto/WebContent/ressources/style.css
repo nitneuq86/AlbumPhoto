@@ -13,7 +13,8 @@ ul {
 
 input[type="text"],
 input[type="password"],
-input[type="submit"] {
+input[type="submit"],
+select {
 	padding: 2px 5px;
 }
 
