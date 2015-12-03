@@ -16,22 +16,22 @@ public class Personne {
 	private int id;
 	private String nom;
 	private String prenom;
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "createur")
 	private List<Album> albums;
-	
+
 	public Personne() {}
-	
-	public Personne(String prenom, String nom){
+
+	public Personne(String prenom, String nom) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.albums = new ArrayList<Album>();
 	}
-	
-	public int getId(){
+
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id){
+
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -50,15 +50,15 @@ public class Personne {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-	
-	public List<Album> getAlbums(){
-		if(albums == null){
-			albums= new ArrayList<Album>();
+
+	public List<Album> getAlbums() {
+		if (albums == null) {
+			albums = new ArrayList<Album>();
 		}
 		return this.albums;
 	}
-	
-	public void setAlbums(List<Album> albums){
+
+	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
 	}
 }

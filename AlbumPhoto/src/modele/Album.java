@@ -7,16 +7,16 @@ import javax.persistence.*;
 @Entity
 public class Album {
 	@Id
-	@GeneratedValue 
+	@GeneratedValue
 	private int id;
 	private String titre;
 	@ManyToOne
 	private Personne createur;
 	private Date dateCreation;
 	private ArrayList<String> photos;
-	
+
 	public Album() {}
-	
+
 	public Album(String titre, Date dateCreation, Personne createur) {
 		this.titre = titre;
 		this.createur = createur;
@@ -24,7 +24,7 @@ public class Album {
 		createur.getAlbums().add(this);
 		this.photos = new ArrayList<String>();
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -40,29 +40,29 @@ public class Album {
 	public void setCreateur(Personne createur) {
 		this.createur = createur;
 	}
-	
+
 	public String getTitre() {
 		return titre;
 	}
-	
+
 	public void setTitre(String titre) {
 		this.titre = titre;
 	}
-	
+
 	public Date getDateCreation() {
 		return dateCreation;
 	}
-	
+
 	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
 	}
-	
-	public ArrayList<String> getPhotos(){
+
+	public ArrayList<String> getPhotos() {
 		return this.photos;
 	}
 
 	public void ajouterPhoto(String photo) {
-		if(photo != null)
+		if (photo != null)
 			this.photos.add(photo);
 	}
 }
