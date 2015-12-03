@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Personne {
@@ -18,13 +19,16 @@ public class Personne {
 	private String prenom;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "createur")
 	private List<Album> albums;
+	@OneToOne(fetch=FetchType.LAZY, mappedBy="personne")
+	private Utilisateur utilisateur;
 
 	public Personne() {}
 
-	public Personne(String prenom, String nom) {
+	public Personne(String prenom, String nom, Utilisateur utilisateur) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.albums = new ArrayList<Album>();
+		this.utilisateur = utilisateur;
 	}
 
 	public int getId() {
@@ -61,4 +65,14 @@ public class Personne {
 	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
 	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+	
+	
 }

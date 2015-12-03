@@ -20,7 +20,7 @@
 		</c:if>
 		<c:if test="${empty sessionScope.sessionUtilisateur}">
 			<ul>
-				<li><a href="<c:url value="/Connexion"/>">Créer un compte</a></li>
+				<li><a href="<c:url value="/Inscription"/>">Créer un compte</a></li>
 				<li><a href="<c:url value="/Connexion"/>">Se connecter</a></li>
 			</ul>
 		</c:if>

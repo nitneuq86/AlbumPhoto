@@ -1,18 +1,25 @@
 package modele;
 
-public class Utilisateur {
-	private Personne personne;
-	private String login;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-	public Utilisateur(Personne personne, String login) {
+@Entity
+public class Utilisateur {
+	@OneToOne(fetch=FetchType.LAZY)
+	private Personne personne;
+	@Id
+	private String login;
+	private String password;
+
+	public Utilisateur(Personne personne, String login, String password) {
 		this.personne = personne;
 		this.login = login;
+		this.password = password;
 	}
 
-	public Utilisateur() {
-		this.personne = null;
-		this.login = null;
-	}
+	public Utilisateur() {	}
 
 	public Personne getPersonne() {
 		return personne;
@@ -30,4 +37,13 @@ public class Utilisateur {
 		this.login = login;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }
