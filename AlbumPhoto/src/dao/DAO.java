@@ -4,7 +4,7 @@ import org.apache.openjpa.util.OpenJPAId;
 
 public interface DAO<T, K> {
 
-	public K create(T obj);
+	public OpenJPAId create(T obj);
 
 	public T read(K id);
 

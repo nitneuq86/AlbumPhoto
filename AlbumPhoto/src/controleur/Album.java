@@ -1,25 +1,15 @@
 package controleur;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.openjpa.util.IntId;
-
 import dao.DAOFactory;
 import extra.Data;
-import modele.Personne;
 
 @WebServlet(urlPatterns = { "/Album", "/Album/*" })
 public class Album extends HttpServlet {
@@ -111,18 +101,18 @@ public class Album extends HttpServlet {
 		// }
 	}
 
-	private Map<String, String> parseParameters(ServletInputStream is) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		String data = br.readLine();
-
-		HashMap<String, String> parameters = new HashMap<String, String>();
-		String[] parametersArray = data.split("&");
-		for (String parameter : parametersArray) {
-			String[] parameterArray = parameter.split("=");
-			parameters.put(parameterArray[0], parameterArray[1]);
-		}
-
-		return parameters;
-	}
+//	private Map<String, String> parseParameters(ServletInputStream is) throws IOException {
+//		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//		String data = br.readLine();
+//
+//		HashMap<String, String> parameters = new HashMap<String, String>();
+//		String[] parametersArray = data.split("&");
+//		for (String parameter : parametersArray) {
+//			String[] parameterArray = parameter.split("=");
+//			parameters.put(parameterArray[0], parameterArray[1]);
+//		}
+//
+//		return parameters;
+//	}
 
 }

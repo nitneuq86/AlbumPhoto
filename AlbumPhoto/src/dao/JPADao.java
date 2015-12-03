@@ -10,6 +10,7 @@ public abstract class JPADao<T, K> implements DAO<T, K> {
 	protected EntityManager em;
 	private Class<T> entityClass;
 
+	@SuppressWarnings("unchecked")
 	public JPADao(EntityManager em) {
 		this.em = em;
 		ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
@@ -17,11 +18,11 @@ public abstract class JPADao<T, K> implements DAO<T, K> {
 	}
 
 	@Override
-	public K create(T obj) {
+	public OpenJPAId create(T obj) {
 		em.getTransaction().begin();
 		em.persist(obj);
 		em.getTransaction().commit();
-		return (K) em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(obj);
+		return (OpenJPAId) em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(obj);
 	}
 
 	@Override
