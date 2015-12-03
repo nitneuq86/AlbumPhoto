@@ -19,17 +19,15 @@ import controleur.Connexion;
 
 @WebFilter("/*")
 public class FiltrePermissions implements Filter {
-	
+
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
 	public static String[] cheminsAccessibles = {"/Accueil", "/Connexion", "/ressources/.*"};
+
+	public FiltrePermissions() {}
+
+	public void destroy() {}
 	
-    public FiltrePermissions() {
-    }
-
-	public void destroy() {
-	}
-
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -57,7 +55,6 @@ public class FiltrePermissions implements Filter {
 		}
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+	public void init(FilterConfig fConfig) throws ServletException {}
 
 }

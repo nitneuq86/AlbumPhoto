@@ -11,25 +11,26 @@ public class DAOFactory {
 	private AlbumDao albumDao;
 	private PhotoDao photoDao;
 	
+
 	private DAOFactory() {
 		emf = Persistence.createEntityManagerFactory("DB");
-		em=emf.createEntityManager();
+		em = emf.createEntityManager();
 	}
-	
+
 	public static DAOFactory getInstance() {
 		return INSTANCE;
 	}
-	
+
 	public PersonneDao getPersonneDao() {
-		if (personneDao==null) {
-			personneDao=new PersonneDao(em);
+		if (personneDao == null) {
+			personneDao = new PersonneDao(em);
 		}
 		return personneDao;
 	}
-	
+
 	public AlbumDao getAlbumDao() {
-		if (albumDao==null) {
-			albumDao=new AlbumDao(em);
+		if (albumDao == null) {
+			albumDao = new AlbumDao(em);
 		}
 		return albumDao;
 	}
