@@ -7,14 +7,16 @@
 		<h2>Gestionnaire d'albums photo en JavaEE</h2>
 	</section>
 	<section class="module">
-		<p>
-			<c:out
-				value="${sessionScope.sessionUtilisateur.personne.prenom } ${sessionScope.sessionUtilisateur.personne.nom}" />
-			(<a href="<c:url value="/Deconnexion"/>">Déconnexion</a>)
-		</p>
-		<form>
-			<input type="text" placeholder="Recherche rapide..."> <input
-				type="submit" value="Go !">
-		</form>
+<c:if test="${not empty sessionScope.sessionUtilisateur}">
+			<p><c:out value="${sessionScope.sessionUtilisateur.personne.prenom } ${sessionScope.sessionUtilisateur.personne.nom}" /> (<a href="<c:url value="/Deconnexion"/>">Déconnexion</a>)</p>
+			<form>
+				<input type="text" placeholder="Recherche rapide...">
+				<input type="submit" value="Go !">
+			</form>
+		</c:if>
+		<c:if test="${empty sessionScope.sessionUtilisateur}">
+			<p><a href="<c:url value="/Connexion"/>">Créer un compte</a></p>
+			<p><a href="<c:url value="/Connexion"/>">Se connecter</a></p>
+		</c:if>
 	</section>
 </header>

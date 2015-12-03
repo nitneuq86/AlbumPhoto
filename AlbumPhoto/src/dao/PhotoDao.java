@@ -4,11 +4,12 @@ import javax.persistence.EntityManager;
 
 import org.apache.openjpa.util.IntId;
 
-import modele.Album;
+import modele.Photo;
 
-public class AlbumDao extends JPADao<Album, Integer> {
+public class PhotoDao extends JPADao<Photo, IntId> {
 
-	public AlbumDao(EntityManager em) {
+	public PhotoDao(EntityManager em) {
 		super(em);
 	}
+
 }

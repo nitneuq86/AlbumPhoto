@@ -3,6 +3,8 @@ package dao;
 import java.lang.reflect.ParameterizedType;
 import javax.persistence.EntityManager;
 
+import org.apache.openjpa.util.OpenJPAId;
+
 public abstract class JPADao<T, K> implements DAO<T, K> {
 
 	protected EntityManager em;

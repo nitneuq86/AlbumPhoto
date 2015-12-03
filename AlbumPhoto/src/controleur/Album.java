@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.openjpa.util.IntId;
+
 import dao.DAOFactory;
 import extra.Data;
 import modele.Personne;
@@ -73,7 +75,7 @@ public class Album extends HttpServlet {
 		// System.out.println(parameters.get("idAlbum"));
 		//
 		// Récupére l'album passé en paramètre
-		modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(request.getParameter("idAlbum")));
+		modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.getInteger(request.getParameter("idAlbum")));
 		System.out.println("Album : " + album);
 		// Si l'album existe
 		if (album != null) {

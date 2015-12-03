@@ -1,5 +1,7 @@
 package dao;
 
+import org.apache.openjpa.util.OpenJPAId;
+
 public interface DAO<T, K> {
 
 	public K create(T obj);

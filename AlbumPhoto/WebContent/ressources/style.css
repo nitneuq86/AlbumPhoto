@@ -12,6 +12,13 @@ ul {
 	list-style: none;
 }
 
+input[type="text"],
+input[type="password"],
+input[type="submit"],
+select {
+	padding: 2px 5px;
+}
+
 body {
 	width: 1000px;
 	margin: auto;

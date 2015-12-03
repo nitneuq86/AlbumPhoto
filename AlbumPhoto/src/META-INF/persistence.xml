@@ -6,7 +6,7 @@
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<class>modele.Personne</class>
 		<class>modele.Album</class>
-
+		<class>modele.Photo</class>
 		<properties>
 			<!-- property name="openjpa.RuntimeUnenhancedClasses" value="supported"/ -->
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

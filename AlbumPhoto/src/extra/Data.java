@@ -3,7 +3,6 @@ package extra;
 import java.util.ArrayList;
 import java.util.Date;
 
-import controleur.Connexion;
 import modele.Album;
 import modele.Personne;
 import modele.Utilisateur;
