@@ -7,14 +7,15 @@
 		<class>modele.Personne</class>
 		<class>modele.Album</class>
 		<class>modele.Photo</class>
+		<class>modele.Utilisateur</class>
 		<properties>
 			<!-- property name="openjpa.RuntimeUnenhancedClasses" value="supported"/ -->
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://imss-db.upmf-grenoble.fr:5432/abdelfam?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory" /> -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/albumz"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://imss-db.upmf-grenoble.fr:5432/abdelfam?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory" />
+			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/albumz"/> -->
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema"/>
-			<property name="javax.persistence.jdbc.user" value="postgres"/>
-			<property name="javax.persistence.jdbc.password" value="postgres"/>
+			<property name="javax.persistence.jdbc.user" value="abdelfam"/>
+			<property name="javax.persistence.jdbc.password" value="abdelfam2015"/>
 
 		</properties>
 	</persistence-unit>

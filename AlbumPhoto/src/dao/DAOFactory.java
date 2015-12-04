@@ -7,9 +7,11 @@ public class DAOFactory {
 	private static final DAOFactory INSTANCE = new DAOFactory();
 	private EntityManagerFactory emf;
 	private EntityManager em;
+	
 	private PersonneDao personneDao;
 	private AlbumDao albumDao;
 	private PhotoDao photoDao;
+	private UtilisateurDao utilisateurDao;
 	
 
 	private DAOFactory() {
@@ -36,9 +38,16 @@ public class DAOFactory {
 	}
 	
 	public PhotoDao getPhotoDao() {
-		if (photoDao==null) {
-			photoDao=new PhotoDao(em);
+		if (photoDao == null) {
+			photoDao = new PhotoDao(em);
 		}
 		return photoDao;
+	}
+	
+	public UtilisateurDao getUtilisateurDao() {
+		if (utilisateurDao == null) {
+			utilisateurDao = new UtilisateurDao(em);
+		}
+		return utilisateurDao;
 	}
 }
