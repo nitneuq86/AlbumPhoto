@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = { "/Utilisateur", "/Utilisateur/*" })
+import dao.DAOFactory;
+import modele.Personne;
+
+@WebServlet("/Utilisateur")
 public class Utilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -17,20 +20,21 @@ public class Utilisateur extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path = request.getPathInfo();
-		if (path == null || path.compareTo("/") == 0) {
-			request.setAttribute("typeRecherche", "utilisateur");
-			this.getServletContext().getRequestDispatcher("/vue/rechercher.jsp").forward(request, response);
-		} else {
-			try {
-				int idRessource = Integer.parseInt(path.substring(1));
-				if (idRessource == 245) {
-					this.getServletContext().getRequestDispatcher("/vue/utilisateur.jsp").forward(request, response);
-				} else
-					this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
-			} catch (NumberFormatException ex) {
-				this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
-			}
+		//TODO 404
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		modele.Utilisateur utilisateur = DAOFactory.getInstance().getUtilisateurDao().read(request.getParameter("login"));
+		if(utilisateur == null){
+			Personne personne = new Personne(request.getParameter("prenom"), request.getParameter("nom"), null);
+			DAOFactory.getInstance().getPersonneDao().create(personne);
+			utilisateur = new modele.Utilisateur(personne, request.getParameter("login"), request.getParameter("pass"));
+			DAOFactory.getInstance().getUtilisateurDao().create(utilisateur);
+			this.getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
+		}
+		else {
+			request.setAttribute("messageErreur", "ce login est déjà utilisé par un autre utilisateur");
+			this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
 		}
 	}
 }

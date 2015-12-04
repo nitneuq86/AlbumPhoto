@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Deconnexion")
 public class Deconnexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String URL_REDIRECTION = "/Connexion";
+	public static final String URL_REDIRECTION = "/";
 
 	public Deconnexion() {
 		super();

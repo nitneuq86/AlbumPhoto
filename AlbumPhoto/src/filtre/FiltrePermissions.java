@@ -49,7 +49,6 @@ public class FiltrePermissions implements Filter {
 			chain.doFilter(request, response);
 		}
 		else {
-			
 			session.setAttribute(ATT_CONNECTION_REQUESTED_URL, request.getRequestURI());
 			response.sendRedirect(request.getContextPath() + "/Connexion");
 		}
