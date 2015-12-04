@@ -17,6 +17,7 @@ public class Utilisateur {
 		this.personne = personne;
 		this.login = login;
 		this.password = password;
+		this.personne.setUtilisateur(this);
 	}
 
 	public Utilisateur() {	}
