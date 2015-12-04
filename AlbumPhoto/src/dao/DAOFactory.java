@@ -50,4 +50,10 @@ public class DAOFactory {
 		}
 		return utilisateurDao;
 	}
+
+	public EntityManager getEntityManager() {
+		return em;
+	}
+	
+	
 }

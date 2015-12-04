@@ -1,7 +1,10 @@
 package controleur;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +23,14 @@ public class Utilisateur extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO 404
+		EntityManager entityManager = DAOFactory.getInstance().getEntityManager();
+		Query query = entityManager.createQuery("SELECT x FROM Utilisateur x");
+		List<modele.Utilisateur> results = (List<modele.Utilisateur>) query.getResultList();
+		response.getWriter().append("<table border=\"1\"><tr><th>Login</th><th>Password</th><th>Personne</th></tr>");
+		for(modele.Utilisateur utilisateur : results) {
+			response.getWriter().append("<tr><td>"+utilisateur.getLogin()+"</td><td>"+utilisateur.getPassword()+"</td><td>"+utilisateur.getPersonne().getPrenom()+" "+utilisateur.getPersonne().getNom()+"</td></tr>");
+		}
+		response.getWriter().append("</table>");
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +43,7 @@ public class Utilisateur extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/Connexion").forward(request, response);
 		}
 		else {
-			request.setAttribute("messageErreur", "ce login est dÈj‡ utilisÈ par un autre utilisateur");
+			request.setAttribute("messageErreur", "ce login est d√©j√† utilis√© par un autre utilisateur");
 			this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
 		}
 	}

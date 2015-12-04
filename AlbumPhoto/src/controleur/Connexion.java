@@ -36,7 +36,7 @@ public class Connexion extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/vue/connexion.jsp").forward(request, response);
 		}
 		else {
-			// Utilisateur trouvé
+			// Utilisateur trouvÃ©
 			if(utilisateur != null) {
 				if(getValeurChamp(request, "pass").equals(utilisateur.getPassword())) {
 					String requestedUrl = (String) session.getAttribute(FiltrePermissions.ATT_CONNECTION_REQUESTED_URL);
@@ -49,14 +49,14 @@ public class Connexion extends HttpServlet {
 				}
 				// Mauvais mot de passe
 				else {
-					request.setAttribute("messageErreur", "mot de passe eronné");
+					request.setAttribute("messageErreur", "mot de passe eronnÃ©");
 					request.setAttribute("utilisateur", request.getParameter("login"));
 					this.getServletContext().getRequestDispatcher("/vue/connexion.jsp").forward(request, response);
 				}
 			}
 			// Utilisateur introuvable
 			else {
-				request.setAttribute("messageErreur", "le login entré ne correspond à aucun utilisateur enregistré");
+				request.setAttribute("messageErreur", "le login entrÃ© ne correspond Ã  aucun utilisateur enregistrÃ©");
 				request.setAttribute("utilisateur", request.getParameter("login"));
 				this.getServletContext().getRequestDispatcher("/vue/connexion.jsp").forward(request, response);
 			}
