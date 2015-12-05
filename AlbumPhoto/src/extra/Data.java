@@ -1,7 +1,6 @@
 package extra;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
@@ -15,7 +14,6 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 
 import modele.Album;
-import modele.Personne;
 import modele.Utilisateur;
 
 public class Data {
