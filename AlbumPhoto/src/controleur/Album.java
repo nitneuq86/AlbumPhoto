@@ -75,13 +75,7 @@ public class Album extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("BidulePOST !!");
-		System.out.println(request.getParameter("idAlbum"));
-		// modele.Album album = (modele.Album) request.getAttribute("album");
-		// if(album != null){
-		//
-		// DAOFactory.getInstance().getAlbumDao().create(album);
-		// }
+		request.setAttribute("messageErreur", "Je suis passé par la servlet Album !");
 	}
 
 	@Override

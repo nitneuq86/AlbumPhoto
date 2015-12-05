@@ -23,7 +23,7 @@
 				</article>
 				<article>
 					<h3>Ajouter un album photo</h3>
-					<form method="post" action="/Album">
+					<form method="post" action="GestionnaireAlbums">
 						<table class="formulaire">
 							<tr>
 								<td><label for="title">Titre :</label></td>
@@ -32,6 +32,7 @@
 						</table>
 						<input type="submit" value="Créer l'album">
 					</form>
+					<c:if test="${messageErreur != null}"><p class="erreurConnexion">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
 				</article>
 			</section>
 		</main>
