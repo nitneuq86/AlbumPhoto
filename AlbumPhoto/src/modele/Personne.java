@@ -24,11 +24,11 @@ public class Personne {
 
 	public Personne() {}
 
-	public Personne(String prenom, String nom, Utilisateur utilisateur) {
+	public Personne(String prenom, String nom) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.albums = new ArrayList<Album>();
-		this.utilisateur = utilisateur;
+		this.utilisateur = null;
 	}
 
 	public int getId() {
