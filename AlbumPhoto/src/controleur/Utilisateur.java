@@ -37,7 +37,7 @@ public class Utilisateur extends HttpServlet {
 		
 		modele.Utilisateur utilisateur = DAOFactory.getInstance().getUtilisateurDao().read(request.getParameter("login"));
 		if(utilisateur == null){
-			Personne personne = new Personne(request.getParameter("prenom"), request.getParameter("nom"), null);
+			Personne personne = new Personne(request.getParameter("prenom"), request.getParameter("nom"));
 			DAOFactory.getInstance().getPersonneDao().create(personne);
 			utilisateur = new modele.Utilisateur(personne, request.getParameter("login"), request.getParameter("pass"));
 			DAOFactory.getInstance().getUtilisateurDao().create(utilisateur);

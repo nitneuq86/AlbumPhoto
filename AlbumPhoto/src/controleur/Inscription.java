@@ -26,7 +26,6 @@ public class Inscription extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
 	}
-<<<<<<< HEAD
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(
@@ -41,27 +40,6 @@ public class Inscription extends HttpServlet {
 			request.setAttribute("messageErreur", "un ou plusieus champs ne sont pas remplis");
 			this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
 		}
-=======
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		System.out.println(getValeurChamp(request, "login"));
-		Utilisateur utilisateur = DAOFactory.getInstance().getUtilisateurDao().read(getValeurChamp(request, "login"));
-		
-		if(utilisateur == null){
-			Personne personne = new Personne(getValeurChamp(request, "prenom"), getValeurChamp(request, "nom"));
-			DAOFactory.getInstance().getPersonneDao().create(personne);
-			utilisateur = new Utilisateur(personne, getValeurChamp(request, "login"), getValeurChamp(request, "pass"));
-			DAOFactory.getInstance().getUtilisateurDao().create(utilisateur);
-			System.out.println(personne.getUtilisateur());
-			request.setAttribute("message", "Vous êtes inscrit.");
-		} else {
-			request.setAttribute("message", "Ce login est déjà pris !");
-		}
-		this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
->>>>>>> 353310f0b903e65fdb0c43875de1f2546b6c3e74
 	}
 	
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
