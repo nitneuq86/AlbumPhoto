@@ -45,7 +45,7 @@ public class Connexion extends HttpServlet {
 					if (requestedUrl != null)
 						response.sendRedirect(requestedUrl);
 					else
-						response.sendRedirect(request.getContextPath());
+						response.sendRedirect(request.getContextPath()+"/Personne/"+utilisateur.getPersonne().getId());
 				}
 				// Mauvais mot de passe
 				else {

@@ -37,7 +37,8 @@ public class Personne extends HttpServlet {
 		else {
 			modele.Personne personne = DAOFactory.getInstance().getPersonneDao().read(Integer.parseInt(path));
 			if(personne != null) {
-				response.getWriter().append(personne.getPrenom()+" "+personne.getNom());
+				request.setAttribute("personne", personne);
+				this.getServletContext().getRequestDispatcher("/vue/personne.jsp").forward(request, response);
 			}
 			else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 		}

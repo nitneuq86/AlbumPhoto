@@ -7,9 +7,9 @@
 		<h2>Gestionnaire d'albums photo en JavaEE</h2>
 	</section>
 	<section class="module"><c:if test="${not empty sessionScope.sessionUtilisateur}">
-			<h3>Bienvenue <c:out value="${sessionScope.sessionUtilisateur.personne.prenom }" /> !</h3>
+			<h3>Bienvenue <c:out value="${sessionScope.sessionUtilisateur.personne.prenom}" /> !</h3>
 			<ul>
-				<li><a href="#">Accéder à ma page personnelle</a></li>
+				<li><a href="<c:url value="/Personne/${sessionScope.sessionUtilisateur.personne.id}"/>">Accéder à ma page personnelle</a></li>
 				<li><a href="#">Gérer mes albums photo</a></li>
 				<li><a href="<c:url value="/Deconnexion"/>">Se déconnecter</a></li>
 			</ul>
