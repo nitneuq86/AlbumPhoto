@@ -34,6 +34,7 @@ public class Utilisateur extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		modele.Utilisateur utilisateur = DAOFactory.getInstance().getUtilisateurDao().read(request.getParameter("login"));
 		if(utilisateur == null){
 			Personne personne = new Personne(request.getParameter("prenom"), request.getParameter("nom"), null);

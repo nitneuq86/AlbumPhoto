@@ -46,7 +46,8 @@ public class FiltrePermissions implements Filter {
         }
         
         if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
-			chain.doFilter(request, response);
+        	if(path.equals("/GestionnaireAlbums")) request.getRequestDispatcher("/vue/gestionnaireAlbums.jsp").forward(request, response);
+        	else chain.doFilter(request, response);
 		}
 		else {
 			session.setAttribute(ATT_CONNECTION_REQUESTED_URL, request.getRequestURI());

@@ -10,7 +10,7 @@
 			<h3>Bienvenue <c:out value="${sessionScope.sessionUtilisateur.personne.prenom}" /> !</h3>
 			<ul>
 				<li><a href="<c:url value="/Personne/${sessionScope.sessionUtilisateur.personne.id}"/>">Accéder à ma page personnelle</a></li>
-				<li><a href="#">Gérer mes albums photo</a></li>
+				<li><a href="<c:url value="/GestionnaireAlbums"/>">Gérer mes albums photo</a></li>
 				<li><a href="<c:url value="/Deconnexion"/>">Se déconnecter</a></li>
 			</ul>
 			<form>
