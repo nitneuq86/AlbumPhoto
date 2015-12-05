@@ -1,10 +1,19 @@
 package extra;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import org.apache.jena.atlas.web.auth.HttpAuthenticator;
+import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.update.UpdateExecutionFactory;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 
 import modele.Album;
-import modele.Personne;
 import modele.Utilisateur;
 
 public class Data {
@@ -40,5 +49,24 @@ public class Data {
 //			i++;
 //		}
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
+		UpdateRequest req = UpdateFactory.create("INSERT DATA {GRAPH <http://imss.upmf-grenoble.fr/abdelfam> { <http://albumz.fr/myriam>  a  <http://albumz.fr/Personne> . }}");
+		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
+		up.execute();
+		
+		try (QueryExecution qe = QueryExecutionFactory.sparqlService("https://imss-www.upmf-grenoble.fr/sparql",
+                "SELECT ?s ?p ?o WHERE { ?s ?p ?o }", 
+                "http://imss.upmf-grenoble.fr/abdelfam",
+                authenticator)) {
+
+				ResultSet rs = qe.execSelect();
+				while (rs.hasNext()) {
+					QuerySolution s = rs.nextSolution();
+					System.out.println(s.getResource("?s") + " " + s.getResource("?p") + " " + s.getResource("?o"));
+				}
+}	
 	}
 }

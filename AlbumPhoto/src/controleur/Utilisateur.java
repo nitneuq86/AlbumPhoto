@@ -48,4 +48,6 @@ public class Utilisateur extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/vue/inscription.jsp").forward(request, response);
 		}
 	}
+	
+	
 }
