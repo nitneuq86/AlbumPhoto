@@ -18,24 +18,24 @@
 					<table class="formulaire">
 						<tr>
 							<td><label for="login">Login :</label></td>
-							<td><input type="text" id="login" name="login" /></td>
+							<td><input type="text" id="login" name="login" value="${param.login}"/></td>
 						</tr>
 						<tr>
 							<td><label for="pass">Mot de passe :</label></td>
-							<td><input type="password" id="pass" name="pass" value="" /></td>
+							<td><input type="password" id="pass" name="pass"/></td>
 						</tr>
 						<tr>
 							<td><label for="nom">Nom :</label></td>
-							<td><input type="text" id="nom" name="nom" /></td>
+							<td><input type="text" id="nom" name="nom" value="${param.nom}"/></td>
 						</tr>
 						<tr>
 							<td><label for="prenom">Prénom :</label></td>
-							<td><input type="text" id="prenom" name="prenom" /></td>
+							<td><input type="text" id="prenom" name="prenom" value="${param.prenom}"/></td>
 						</tr>
 					</table>
 					<input type="submit" value="Inscription">
-					<c:if test="${message != null}"><p class="erreurConnexion"><c:out value="${message}"></c:out></p></c:if> 
 	        	</form>
+	        	<c:if test="${messageErreur != null}"><p class="erreurConnexion">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
 			</section>
         </main>
     </body>

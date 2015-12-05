@@ -19,7 +19,7 @@ import controleur.Connexion;
 
 @WebFilter("/*")
 public class FiltrePermissions implements Filter {
-
+	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
 	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription"};
@@ -46,10 +46,9 @@ public class FiltrePermissions implements Filter {
         }
         
         if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
-			chain.doFilter(request, response);
+        	chain.doFilter(request, response);
 		}
 		else {
-			
 			session.setAttribute(ATT_CONNECTION_REQUESTED_URL, request.getRequestURI());
 			response.sendRedirect(request.getContextPath() + "/Connexion");
 		}

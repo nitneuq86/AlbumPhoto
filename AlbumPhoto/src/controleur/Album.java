@@ -99,8 +99,6 @@ public class Album extends HttpServlet {
 			request.setAttribute("code", "400");
 			request.setAttribute("message", MESSAGE_POST_ATTRIBUTE_MISSING);
 		}
-		
-		
 	}
 
 	@Override

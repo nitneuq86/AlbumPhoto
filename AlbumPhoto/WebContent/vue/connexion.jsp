@@ -26,8 +26,8 @@
 						</tr>
 					</table>
 					<input type="submit" value="Connexion">
-					<c:if test="${utilisateur != null}"><p class="erreurConnexion">Combinaison login/mot de passe incorrecte</p></c:if>
 	        	</form>
+	        	<c:if test="${messageErreur != null}"><p class="erreurConnexion">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
 			</section>
         </main>
     </body>
