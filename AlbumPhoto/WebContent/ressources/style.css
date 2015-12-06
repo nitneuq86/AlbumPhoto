@@ -174,3 +174,44 @@ p.erreurConnexion {
 	color: red;
 	margin-top: 10px;
 }
+
+body>main>section>article ul.albums>li {
+	display: inline-block;
+	width: 200px;
+	margin-right: 20px;
+	position: relative;
+	vertical-align: top;
+}
+
+body>main>section>article ul.albums>li>article {
+	display: block;
+	width: 200px;
+	height: 120px;
+	background: url(images/album.png) no-repeat;
+    background-size:100% 100%;
+    border-radius: 3px;
+}
+
+body>main>section>article ul.albums>li>p {
+	font-family: Indie Flower, Roboto, Arial;
+	font-weight: bold;
+	text-align: center;
+	font-size: 18pt;
+	line-height: 1;
+}
+
+form.suppressionAlbum {
+	margin: 0;
+	position: absolute;
+	top: -10px;
+	right: -10px;
+}
+
+form.suppressionAlbum>input[type="submit"] {
+	background: url(images/supprimer_icon.png) no-repeat;
+	width: 20px;
+	height: 20px;
+	text-indent: -9999px;
+	border: none;
+	cursor: pointer;
+}

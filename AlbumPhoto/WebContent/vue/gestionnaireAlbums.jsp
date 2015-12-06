@@ -18,21 +18,39 @@
 			</header>
 			<section>
 				<article>
-					<h3>Mes albums photo (<c:out value="${fn:length(utilisateur.personne.albums)}"/>)</h3>
-					<c:if test="${fn:length(utilisateur.personne.albums) == 0}">Aucun album photo créé :(</c:if>
+					<h3>Mes albums photo (<c:out value="${fn:length(sessionScope.sessionUtilisateur.personne.albums)}"/>)</h3>
+					<c:if test="${fn:length(sessionScope.sessionUtilisateur.personne.albums) == 0}">Aucun album photo créé :(</c:if>
+					<c:if test="${fn:length(sessionScope.sessionUtilisateur.personne.albums) > 0}">
+					<ul class="albums">
+						<c:forEach var="album" items="${sessionScope.sessionUtilisateur.personne.albums}">
+							<li>
+								<article>
+									
+								</article>
+								<p><c:out value="${album.titre}"></c:out></p>
+								<form class="suppressionAlbum" action="GestionnaireAlbums" method="post">
+									<input type="hidden" name="method" value="DELETE">
+									<input type="hidden" name="idAlbum" value="${album.id}">
+									<input type="submit" value="X">
+								</form>
+							</li>
+						</c:forEach>
+					</ul>
+					</c:if>
+					
 				</article>
 				<article>
 					<h3>Ajouter un album photo</h3>
 					<form method="post" action="GestionnaireAlbums">
 						<table class="formulaire">
 							<tr>
-								<td><label for="title">Titre :</label></td>
-								<td><input type="text" id="title" name="title"/></td>
+								<td><label for="titre">Titre :</label></td>
+								<td><input type="text" id="titre" name="titre"/></td>
 							</tr>
 						</table>
 						<input type="submit" value="Créer l'album">
 					</form>
-					<c:if test="${messageErreur != null}"><p class="erreurConnexion">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
+					<c:if test="${code == 400}"><p class="erreurConnexion">Erreur : <c:out value="${message}"></c:out></p></c:if>
 				</article>
 			</section>
 		</main>

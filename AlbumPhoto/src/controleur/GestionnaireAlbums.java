@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.DAOFactory;
 
 @WebServlet("/GestionnaireAlbums")
 public class GestionnaireAlbums extends HttpServlet {
@@ -22,5 +25,4 @@ public class GestionnaireAlbums extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/Album").forward(request, response);
 	}
-
 }
