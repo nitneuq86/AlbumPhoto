@@ -24,14 +24,20 @@
 					<ul class="albums">
 						<c:forEach var="album" items="${sessionScope.sessionUtilisateur.personne.albums}">
 							<li>
-								<a href="#">
+								<a href="<c:url value="/GestionnairePhotos/${album.id}"></c:url>">
 									<article>
-										<img class="previewBigPhoto" src="http://placehold.it/110x110" />
-										<img class="previewSmallPhoto1" src="http://placehold.it/50x50" />
-										<img class="previewSmallPhoto2" src="http://placehold.it/50x50" />
+										<c:if test="${fn:length(album.photos) >= 1}">
+											<img class="previewBigPhoto" src="<c:out value="${album.photos[0].uri}"/>" style="background:url(<c:out value="${album.photos[0].uri}"/>) center; background-size:cover;"/>
+										</c:if>
+										<c:if test="${fn:length(album.photos) >= 2}">
+											<img class="previewSmallPhoto1" src="<c:out value="${album.photos[1].uri}"/>" style="background:url(<c:out value="${album.photos[1].uri}"/>) center; background-size:cover;"/>
+										</c:if>
+										<c:if test="${fn:length(album.photos) >= 3}">
+											<img class="previewSmallPhoto2" src="<c:out value="${album.photos[2].uri}"/>" style="background:url(<c:out value="${album.photos[2].uri}"/>) center; background-size:cover;"/>
+										</c:if>
 									</article>
 									<p><c:out value="${album.titre}"></c:out></p>
-									<form class="suppressionAlbum" action="GestionnaireAlbums" method="post">
+									<form class="suppression" action="GestionnaireAlbums" method="post">
 										<input type="hidden" name="method" value="DELETE">
 										<input type="hidden" name="idAlbum" value="${album.id}">
 										<input type="submit" title="Supprimer l'album" value="X">
@@ -54,7 +60,7 @@
 						</table>
 						<input type="submit" value="Créer l'album">
 					</form>
-					<c:if test="${code == 400}"><p class="erreurConnexion">Erreur : <c:out value="${message}"></c:out></p></c:if>
+					<c:if test="${code == 400}"><p class="erreur">Erreur : <c:out value="${message}"></c:out></p></c:if>
 				</article>
 			</section>
 		</main>

@@ -170,7 +170,7 @@ section#rechercheSection>form table tr>td:first-child {
 	width: 100px;
 }
 
-p.erreurConnexion {
+p.erreur {
 	color: red;
 	margin-top: 10px;
 }
@@ -210,14 +210,18 @@ body>main>section>article ul.albums>li>a>p {
 	margin-bottom: 10px;
 }
 
-form.suppressionAlbum {
+body>main>section>article ul.photos>li {
+	position: relative;
+}
+
+form.suppression {
 	margin: 0;
 	position: absolute;
 	top: -10px;
 	right: -10px;
 }
 
-form.suppressionAlbum>input[type="submit"] {
+form.suppression>input[type="submit"] {
 	width: 20px;
 	height: 20px;
 	padding: 0px;
@@ -233,13 +237,15 @@ form.suppressionAlbum>input[type="submit"] {
 	box-shadow: 0 0 1px 0 rgba(0,0,0,0.5);
 }
 
-form.suppressionAlbum>input[type="submit"]:hover {
+form.suppression>input[type="submit"]:hover {
 	background-color: red;
 	color: white;
 }
 
 body>main>section>article ul.albums>li>a>article>img {
 	position: absolute;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body>main>section>article ul.albums>li>a>article>img.previewBigPhoto {
@@ -247,6 +253,7 @@ body>main>section>article ul.albums>li>a>article>img.previewBigPhoto {
 	height: 110px;
 	left: 23px;
 	top: 5px;
+	padding-left: 110px;
 }
 
 body>main>section>article ul.albums>li>a>article>img.previewSmallPhoto1 {
@@ -254,6 +261,7 @@ body>main>section>article ul.albums>li>a>article>img.previewSmallPhoto1 {
 	height: 50px;
 	left: 143px;
 	top: 5px;
+	padding-left: 50px;
 }
 
 body>main>section>article ul.albums>li>a>article>img.previewSmallPhoto2 {
@@ -261,4 +269,5 @@ body>main>section>article ul.albums>li>a>article>img.previewSmallPhoto2 {
 	height: 50px;
 	left: 143px;
 	top: 65px;
+	padding-left: 50px;
 }
