@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOFactory;
-import extra.Data;
 import modele.Personne;
 
 @WebServlet(urlPatterns = {"/Album", "/Album/*", "/Album_delete/*"})
@@ -45,7 +44,12 @@ public class Album extends HttpServlet {
 			response.getWriter().append("</table>");
 		}
 		else {
-			response.getWriter().append("Rien");
+			modele.Album album = DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(path));
+			if(album != null) {
+				request.setAttribute("album", album);
+				this.getServletContext().getRequestDispatcher("/vue/album.jsp").forward(request, response);
+			}
+			else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 		}
 	}
 

@@ -19,20 +19,24 @@
 			<section>
 				<article>
 					<h3>Mes albums photo (<c:out value="${fn:length(sessionScope.sessionUtilisateur.personne.albums)}"/>)</h3>
-					<c:if test="${fn:length(sessionScope.sessionUtilisateur.personne.albums) == 0}">Aucun album photo créé :(</c:if>
+					<c:if test="${fn:length(sessionScope.sessionUtilisateur.personne.albums) == 0}">Aucun album photo créé</c:if>
 					<c:if test="${fn:length(sessionScope.sessionUtilisateur.personne.albums) > 0}">
 					<ul class="albums">
 						<c:forEach var="album" items="${sessionScope.sessionUtilisateur.personne.albums}">
 							<li>
-								<article>
-									
-								</article>
-								<p><c:out value="${album.titre}"></c:out></p>
-								<form class="suppressionAlbum" action="GestionnaireAlbums" method="post">
-									<input type="hidden" name="method" value="DELETE">
-									<input type="hidden" name="idAlbum" value="${album.id}">
-									<input type="submit" value="X">
-								</form>
+								<a href="#">
+									<article>
+										<img class="previewBigPhoto" src="http://placehold.it/110x110" />
+										<img class="previewSmallPhoto1" src="http://placehold.it/50x50" />
+										<img class="previewSmallPhoto2" src="http://placehold.it/50x50" />
+									</article>
+									<p><c:out value="${album.titre}"></c:out></p>
+									<form class="suppressionAlbum" action="GestionnaireAlbums" method="post">
+										<input type="hidden" name="method" value="DELETE">
+										<input type="hidden" name="idAlbum" value="${album.id}">
+										<input type="submit" title="Supprimer l'album" value="X">
+									</form>
+								</a>
 							</li>
 						</c:forEach>
 					</ul>
