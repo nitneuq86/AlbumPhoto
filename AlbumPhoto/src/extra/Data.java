@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -52,21 +54,23 @@ public class Data {
 	}
 	
 	public static void main(String[] args) {
+//		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
+		
 		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
-		UpdateRequest req = UpdateFactory.create("INSERT DATA {GRAPH <http://imss.upmf-grenoble.fr/abdelfam> { <http://albumz.fr/myriam>  a  <http://albumz.fr/Personne> . }}");
+		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
 		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
 		up.execute();
 		
-		try (QueryExecution qe = QueryExecutionFactory.sparqlService("https://imss-www.upmf-grenoble.fr/sparql",
-                "SELECT ?s ?p ?o WHERE { ?s ?p ?o }", 
-                "http://imss.upmf-grenoble.fr/abdelfam",
-                authenticator)) {
-
-				ResultSet rs = qe.execSelect();
-				while (rs.hasNext()) {
-					QuerySolution s = rs.nextSolution();
-					System.out.println(s.getResource("?s") + " " + s.getResource("?p") + " " + s.getResource("?o"));
-				}
-}	
+//		try (QueryExecution qe = QueryExecutionFactory.sparqlService("https://imss-www.upmf-grenoble.fr/sparql",
+//                "SELECT ?s ?p ?o WHERE { ?s ?p ?o }", 
+//                "http://imss.upmf-grenoble.fr/abdelfam",
+//                authenticator)) {
+//
+//				ResultSet rs = qe.execSelect();
+//				while (rs.hasNext()) {
+//					QuerySolution s = rs.nextSolution();
+//					System.out.println(s.getResource("?s") + " " + s.getResource("?p") + " " + s.getResource("?o"));
+//				}
+//		}	
 	}
 }
