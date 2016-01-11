@@ -18,7 +18,7 @@ public class Personne {
 	private int id;
 	private String nom;
 	private String prenom;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "createur")
+	@OneToMany(mappedBy = "createur", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Album> albums;
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="personne")
 	private Utilisateur utilisateur;

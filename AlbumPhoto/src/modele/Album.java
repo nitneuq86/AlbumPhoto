@@ -13,6 +13,7 @@ public class Album {
 	@ManyToOne
 	private Personne createur;
 	private Date dateCreation;
+	@OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private ArrayList<Photo> photos;
 
 	public Album() {}
