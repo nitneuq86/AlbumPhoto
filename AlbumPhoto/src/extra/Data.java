@@ -56,10 +56,46 @@ public class Data {
 	public static void main(String[] args) {
 //		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		
+//		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
+//		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
+//		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
+//		up.execute();
+		
+		String insertAlbum = "PREFIX : <http://myrquent.org/albumz#> "
+				+ "PREFIX IMSS: <http://imss.upmf-grenoble.fr/abdelfam>"
+				+ "PREFIX dc: <http://purl.org/dc/elements/1.1/>"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+				+ "INSERT DATA {GRAPH IMSS: {"
+                + ":album1 rdf:type :Album ;"
+                + "        dc:title \"Album 1\" ;"
+                + "		   :hasPhoto :photo1 ."
+                + "} }";
+		
+		String insertPhoto = "PREFIX : <http://myrquent.org/albumz#> "
+							+ "PREFIX IMSS: <http://imss.upmf-grenoble.fr/abdelfam>"
+							+ "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
+							+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+							+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
+							+ "PREFIX dc: <http://purl.org/dc/elements/1.1/>"
+            				+ "INSERT DATA {GRAPH IMSS: {"
+			                + ":photo1 rdf:type :Photo ;"
+			                + "        :when \"2015-09-24\"^^xsd:dateTime ;"
+			                + "        dc:title \"Photo 1\"^^xsd:string ;"
+			                + "		   :hasAlbum :album1 ;"
+			                + "        :who :dahlia ,"
+			                + "             :isabelle ,"
+			                + "				:mohamed ,"
+			                + "				:myriam , "
+			                + "				:quentin ,"
+			                + "				:samy ."
+			                + "} }";
+		
 		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
-		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
+		UpdateRequest req = UpdateFactory.create(insertAlbum);
 		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
 		up.execute();
+        
+		
 		
 //		try (QueryExecution qe = QueryExecutionFactory.sparqlService("https://imss-www.upmf-grenoble.fr/sparql",
 //                "SELECT ?s ?p ?o WHERE { ?s ?p ?o }", 
