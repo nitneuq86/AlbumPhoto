@@ -35,7 +35,6 @@ public abstract class JPADao<T, K> implements DAO<T, K> {
 		em.getTransaction().begin();
 		em.merge(obj);
 		em.getTransaction().commit();
-
 	}
 
 	@Override

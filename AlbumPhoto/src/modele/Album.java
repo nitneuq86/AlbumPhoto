@@ -13,7 +13,8 @@ public class Album {
 	@ManyToOne
 	private Personne createur;
 	private Date dateCreation;
-	private ArrayList<String> photos;
+	@OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private ArrayList<Photo> photos;
 
 	public Album() {}
 
@@ -22,7 +23,7 @@ public class Album {
 		this.createur = createur;
 		this.dateCreation = dateCreation;
 		createur.getAlbums().add(this);
-		this.photos = new ArrayList<String>();
+		this.photos = new ArrayList<Photo>();
 	}
 
 	public int getId() {
@@ -57,11 +58,11 @@ public class Album {
 		this.dateCreation = dateCreation;
 	}
 
-	public ArrayList<String> getPhotos() {
+	public ArrayList<Photo> getPhotos() {
 		return this.photos;
 	}
 
-	public void ajouterPhoto(String photo) {
+	public void ajouterPhoto(Photo photo) {
 		if (photo != null)
 			this.photos.add(photo);
 	}

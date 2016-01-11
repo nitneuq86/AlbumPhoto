@@ -27,10 +27,10 @@ public class Personne extends HttpServlet {
 			EntityManager entityManager = DAOFactory.getInstance().getEntityManager();
 			Query query = entityManager.createQuery("SELECT x FROM Personne x");
 			List<modele.Personne> results = (List<modele.Personne>) query.getResultList();
-			response.getWriter().append("<table border=\"1\"><tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Login utilisateur</th></tr>");
+			response.getWriter().append("<table border=\"1\"><tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Login utilisateur</th><th>Nombre d'albums</th></tr>");
 			for(modele.Personne personne : results) {
 				String loginUtilisateur = personne.getUtilisateur() != null ? personne.getUtilisateur().getLogin() : "---";
-				response.getWriter().append("<tr><td>"+personne.getId()+"</td><td>"+personne.getNom()+"</td><td>"+personne.getPrenom()+"</td><td>"+loginUtilisateur+"</td></tr>");
+				response.getWriter().append("<tr><td>"+personne.getId()+"</td><td>"+personne.getNom()+"</td><td>"+personne.getPrenom()+"</td><td>"+loginUtilisateur+"</td><td>"+personne.getAlbums().size()+"</td></tr>");
 			}
 			response.getWriter().append("</table>");
 		}

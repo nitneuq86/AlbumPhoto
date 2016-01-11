@@ -40,10 +40,19 @@ function PUT(controleur, parametres){
 }
 
 function DELETE(controleur, parametres){
+	console.log("bidule");
 	var xhr = getXMLHttpRequest();
-
+	
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			console.log("bidule");
+			location.reload();
+		}
+	};
+	
 	xhr.open("DELETE", URL_APP + controleur, true);
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.send(parametres);
+	
 	return false;
 }

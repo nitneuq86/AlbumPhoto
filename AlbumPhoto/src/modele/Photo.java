@@ -22,6 +22,7 @@ public class Photo {
 	public Photo(Album album, Personne createur, String uri) {
 		this.album = album;
 		this.createur = createur;
+		this.album.getPhotos().add(this);
 		this.uri = uri;
 	}
 

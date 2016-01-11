@@ -22,5 +22,4 @@ public class GestionnaireAlbums extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/Album").forward(request, response);
 	}
-
 }

@@ -35,7 +35,7 @@
 					</table>
 					<input type="submit" value="Inscription">
 	        	</form>
-	        	<c:if test="${messageErreur != null}"><p class="erreurConnexion">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
+	        	<c:if test="${messageErreur != null}"><p class="erreur">Erreur : <c:out value="${messageErreur}"></c:out></p></c:if>
 			</section>
         </main>
     </body>
