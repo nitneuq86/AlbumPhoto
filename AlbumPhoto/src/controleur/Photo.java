@@ -31,7 +31,7 @@ public class Photo extends HttpServlet {
 			List<modele.Photo> results = (List<modele.Photo>) query.getResultList();
 			response.getWriter().append("<table border=\"1\"><tr><th>ID</th><th>URI</th><th>Album</th><th>Auteur</th></tr>");
 			for(modele.Photo photo : results) {
-				response.getWriter().append("<tr><td>"+photo.getId()+"</td><td>"+photo.getUri()+"</td><td>"+photo.getAlbum().getTitre()+" (ID = "+photo.getAlbum().getId()+")</td><td>"+photo.getAlbum().getCreateur().getPrenom()+" "+photo.getAlbum().getCreateur().getNom()+"</td></tr>");
+				response.getWriter().append("<tr><td>"+photo.getId()+"</td><td>"+photo.getUrl()+"</td><td>"+photo.getAlbum().getTitre()+" (ID = "+photo.getAlbum().getId()+")</td><td>"+photo.getAlbum().getCreateur().getPrenom()+" "+photo.getAlbum().getCreateur().getNom()+"</td></tr>");
 			}
 			response.getWriter().append("</table>");
 		}
@@ -51,13 +51,13 @@ public class Photo extends HttpServlet {
 		}
 		else {
 			// Récupére les paramètre de la photo qui doit être créée
-			String URI = request.getParameter("uri");
+			String URL = (String) request.getAttribute("urlPhoto");
 			modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(request.getParameter("idAlbum")));
 			
-			if(URI != "" && album != null) {
+			if(URL != "" && album != null) {
 				Personne createur = ((modele.Utilisateur)request.getSession().getAttribute(Connexion.ATT_USER_SESSION)).getPersonne();
 				
-				modele.Photo photo = new modele.Photo(album, createur, URI);
+				modele.Photo photo = new modele.Photo(album, createur, URL, "");
 				
 				if(createur != null) DAOFactory.getInstance().getPhotoDao().create(photo);
 				else {

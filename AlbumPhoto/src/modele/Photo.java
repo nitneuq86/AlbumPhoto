@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Photo {
+	public static final String path = "/Albumz/";
 	
 	@Id
 	@GeneratedValue
@@ -14,16 +15,18 @@ public class Photo {
 	@ManyToOne
 	private Album album;
 	private Personne createur;
-	private String uri;
+	private String url;
+	private String titre;
 	
 	public Photo() {
 	}
 
-	public Photo(Album album, Personne createur, String uri) {
+	public Photo(Album album, Personne createur, String url, String titre) {
 		this.album = album;
 		this.createur = createur;
 		this.album.getPhotos().add(this);
-		this.uri = uri;
+		this.url = url;
+		this.titre = titre;
 	}
 
 	public int getId() {
@@ -50,11 +53,19 @@ public class Photo {
 		this.createur = createur;
 	}
 
-	public String getUri() {
-		return uri;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getTitre() {
+		return titre;
+	}
+
+	public void setTitre(String titre) {
+		this.titre = titre;
 	}
 }
