@@ -16,6 +16,7 @@ public class GestionnaireAlbums extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("pathImages", modele.Photo.path);
 		this.getServletContext().getRequestDispatcher("/vue/gestionnaireAlbums.jsp").forward(request, response);
 	}
 	
