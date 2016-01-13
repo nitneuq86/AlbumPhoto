@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Personne {
@@ -22,6 +23,8 @@ public class Personne {
 	private List<Album> albums;
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="personne")
 	private Utilisateur utilisateur;
+	@Transient
+	private String URI;
 
 	public Personne() {}
 
@@ -30,6 +33,12 @@ public class Personne {
 		this.prenom = prenom;
 		this.albums = new ArrayList<Album>();
 		this.utilisateur = null;
+	}
+	
+	public Personne(String prenom, String nom, String URI){
+		this.nom = nom;
+		this.prenom = prenom;
+		this.URI = URI;
 	}
 
 	public int getId() {
@@ -73,6 +82,14 @@ public class Personne {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public String getURI() {
+		return URI;
+	}
+
+	public void setURI(String uRI) {
+		URI = uRI;
 	}
 	
 	
