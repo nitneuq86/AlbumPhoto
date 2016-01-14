@@ -12,12 +12,14 @@ public class Utilisateur {
 	@Id
 	private String login;
 	private String password;
+	private boolean admin;
 
-	public Utilisateur(Personne personne, String login, String password) {
+	public Utilisateur(Personne personne, String login, String password, boolean admin) {
 		this.personne = personne;
 		this.login = login;
 		this.password = password;
 		this.personne.setUtilisateur(this);
+		this.admin = admin;
 	}
 
 	public Utilisateur() {	}
@@ -44,6 +46,14 @@ public class Utilisateur {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	
 	

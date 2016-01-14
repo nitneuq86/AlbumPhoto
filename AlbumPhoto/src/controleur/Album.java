@@ -141,27 +141,4 @@ public class Album extends HttpServlet {
 		System.out.println("BidulePut !!");
 		System.out.println(request.getParameter("idAlbum"));
 	}
-	
-	/**********************************************************************************/
-	/**********************************************************************************/
-	/**********************************************************************************/
-	//TODO Ne pas oublier de faire figurer les changements au niveau du serveur tomcat (accepter le parse du body pour les méthodesput et delete
-	/**********************************************************************************/
-	/**********************************************************************************/
-	/**********************************************************************************/
-	
-//	private Map<String, String> parseParameters(ServletInputStream is) throws IOException {
-//		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//		String data = br.readLine();
-//
-//		HashMap<String, String> parameters = new HashMap<String, String>();
-//		String[] parametersArray = data.split("&");
-//		for (String parameter : parametersArray) {
-//			String[] parameterArray = parameter.split("=");
-//			parameters.put(parameterArray[0], parameterArray[1]);
-//		}
-//
-//		return parameters;
-//	}
-
 }

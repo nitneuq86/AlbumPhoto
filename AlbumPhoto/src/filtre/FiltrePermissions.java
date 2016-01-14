@@ -16,13 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controleur.Connexion;
+import modele.Personne;
+import modele.Utilisateur;
 
 @WebFilter("/*")
 public class FiltrePermissions implements Filter {
 	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
-	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription", "/Place"};
+	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription"};
+	public static String[] cheminsAdministration = {"/Utilisateur", "/Personne", "/Album", "/Photo"};
 
 	public FiltrePermissions() {}
 
@@ -45,8 +48,20 @@ public class FiltrePermissions implements Filter {
         	}
         }
         
+        
+        
         if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
-        	chain.doFilter(request, response);
+        	boolean isAdminPage = false;
+        	for(String cheminAdministration : cheminsAdministration) {
+            	Matcher matcher = (Pattern.compile(cheminAdministration)).matcher(path);
+            	if(matcher.matches()) isAdminPage = true;
+            }
+        	if(isAdminPage) {
+        		Utilisateur utilisateur = (modele.Utilisateur)request.getSession().getAttribute(Connexion.ATT_USER_SESSION);
+        		if(utilisateur.getAdmin() == true) chain.doFilter(request, response);
+        		else response.sendRedirect(request.getContextPath() + "/Connexion");
+        	}
+        	else chain.doFilter(request, response);
 		}
 		else {
 			session.setAttribute(ATT_CONNECTION_REQUESTED_URL, request.getRequestURI());
