@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -22,7 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+
 import dao.DAOFactory;
+import metier.Sparql;
 import modele.Personne;
 
 @WebServlet(urlPatterns = {"/Photo", "/Photo/*"})
@@ -78,10 +83,19 @@ public class Photo extends HttpServlet {
 					
 					if(createur != null){
 						String titre = request.getParameter("titre");
+						String date = request.getParameter("date");
+						String createurParametre = "<" + request.getParameter("createur") + ">";
+						String ou = "<" + request.getParameter("ou-hidden") + ">";
+						String[] qui = request.getParameterValues("qui");
+						String[] quoi = request.getParameterValues("quoi");
+						
 						modele.Photo photo = new modele.Photo(album, createur, titre);
 						DAOFactory.getInstance().getPhotoDao().create(photo);
 						photo.genererURL();
+						DAOFactory.getInstance().getPhotoDao().update(photo);
 						processRequest(request, response, photo.getUrl());
+						ajoutPhotoGraph(photo.getId(), titre, date, createurParametre, album.getId(), ou, qui, quoi);
+						
 					} else {
 						request.setAttribute("code", "400");
 						request.setAttribute("message", "contrôle du créateur impossible");
@@ -100,10 +114,10 @@ public class Photo extends HttpServlet {
 				request.setAttribute("message", "un ou plusieus champs ne sont pas remplis");
 			}
 			request.setAttribute("album", album);
-			this.getServletContext().getRequestDispatcher("/vue/gestionnairePhotos.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/GestionnairePhotos/" + album.getId());
 		}
 	}
-	
+
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idPhoto = request.getParameter("idPhoto");
@@ -115,6 +129,7 @@ public class Photo extends HttpServlet {
 			
 			if(photo.getAlbum().getCreateur().getId() == personne.getId()){
 				photo.getAlbum().getPhotos().remove(photo);
+//				supprimerPhotoGraph(photo.getId(), photo.getAlbum().getId());
 				DAOFactory.getInstance().getPhotoDao().delete(photo);
 				
 				File file = new File(getServletContext().getRealPath("") + modele.Photo.path + photo.getUrl());
@@ -133,7 +148,7 @@ public class Photo extends HttpServlet {
 			request.setAttribute("message", "la photo n'existe pas");
 		}
 		request.setAttribute("album", photo.getAlbum());
-		this.getServletContext().getRequestDispatcher("/vue/gestionnairePhotos.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/GestionnairePhotos/" + photo.getAlbum().getId());
 	}
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response, String filename)
@@ -175,15 +190,58 @@ public class Photo extends HttpServlet {
 	    }
 	}
 	
-	private String getFileName(final Part part) {
-	    final String partHeader = part.getHeader("content-disposition");
-	    LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
-	    for (String content : part.getHeader("content-disposition").split(";")) {
-	        if (content.trim().startsWith("filename")) {
-	            return content.substring(
-	                    content.indexOf('=') + 1).trim().replace("\"", "");
-	        }
-	    }
-	    return null;
+	private void ajoutPhotoGraph(int id, String titre, String date, String createur, int idAlbum, String ou, String[] qui, String[] quoi) {	
+		String quoiString = "";
+		String selfie = "";
+		for (int i = 0; i < quoi.length; i++) {
+			if(!quoi[i].trim().equals("")){
+				String uriQuoi = ":" + quoi[i].trim().replace(" ", "_").toLowerCase();
+				String insereQuoi = 
+						  "INSERT DATA {GRAPH IMSS: {"
+				        + uriQuoi + " a :Objet ;"
+		        		+ ":title \"" + quoi[i] + "\" ."
+				        + "} }";
+				Sparql.getSparql().requeteCRUD(insereQuoi);
+				
+				quoiString += " :quoi " + uriQuoi + " ;";
+			}
+		}
+		
+		String quiString = "";
+		for (int i = 0; i < qui.length; i++) {
+			if(!qui[i].equals("")){
+				quiString += " :who <" + qui[i] + ">";
+				if(i == qui.length - 1){
+					quiString += " .";
+				} else {
+					quiString += " ;";
+				}
+			}
+		}
+		
+		if(qui.length == 1 && ("<" + qui[0] + ">").equals(createur)){
+			selfie += "rdf:type :Selfie ;"; 
+		}
+		
+		String inserePhoto = 
+				  "INSERT DATA {GRAPH IMSS: {"
+		        + "		:photo" + id + " rdf:type :Photo ;"
+		        + "     				 dc:title \"" + titre + "\" ;"
+        		+ "						 :hasID \"" + id + "\" ;"
+				+ "						 :when \"" + date + "\" ;"
+				+ "						 :creator " + createur + " ;"
+				+ "						 :hasAlbum :album" + idAlbum + " ;"
+				+ "						 " + selfie
+				+ "						 :where " + ou + " ;"
+				+ "						 " + quoiString
+				+ "						 " + quiString
+		        + "} }";
+		Sparql.getSparql().requeteCRUD(inserePhoto);
+				
+		String insereDansAlbum = 
+				  "INSERT DATA {GRAPH IMSS: {"
+		        + ":album" + idAlbum + " :hasPhoto :photo" + id + " ."
+		        + "} }";
+		Sparql.getSparql().requeteCRUD(insereDansAlbum);
 	}
 }

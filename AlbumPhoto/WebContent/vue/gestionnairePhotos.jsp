@@ -58,7 +58,7 @@
 								<td><label for="qui">Qui :</label></td>
 								<td class="ajoutPersonne">
 									<select name="qui" id="qui">
-										<option value="personne" selected>Personne</option>
+										<option value="" selected></option>
 										<c:forEach var="personne" items="${personnes}" varStatus="num">
 											<option value="${personne.URI}">${personne.prenom} ${personne.nom}</option>
 										</c:forEach>
@@ -75,7 +75,6 @@
 									<input type="text" id="ou" name="ou" onkeyup="verificationPlace()" list="places"/>
 									<input type="hidden" name="ou-hidden" id="ou-hidden">
 									<datalist id="places">
-											<option data-value="bidule">Machin</option>
 									</datalist>
 								</td>
 							</tr>

@@ -41,8 +41,9 @@ public class GestionnairePhotos extends HttpServlet {
 							   + "	foaf:firstName ?firstName ;"
 							   + "	foaf:familyName ?familyName ."
 							   + "}";
+				
 				//Execution de la requête sur le graph imss
-				ResultSet  resultatPersonnes =  Sparql.getSparql().requete(requetePersonnes, "http://imss.upmf-grenoble.fr/abdelfam");
+				ResultSet  resultatPersonnes =  Sparql.getSparql().requeteSPARQL(requetePersonnes, "http://imss.upmf-grenoble.fr/abdelfam");
 				ArrayList<modele.Personne> personnes = new ArrayList<modele.Personne>();
 				//Pour chaque résultat, on stocke les personnes dans un tableau de Personne
 				while (resultatPersonnes.hasNext()) {
@@ -58,7 +59,7 @@ public class GestionnairePhotos extends HttpServlet {
 						   + "}";
 				
 				//Execution de la requête sur le graph imss
-				ResultSet  resultatAnimaux =  Sparql.getSparql().requete(requeteAnimaux, "http://imss.upmf-grenoble.fr/abdelfam");
+				ResultSet  resultatAnimaux =  Sparql.getSparql().requeteSPARQL(requeteAnimaux, "http://imss.upmf-grenoble.fr/abdelfam");
 				ArrayList<modele.Personne> animaux = new ArrayList<modele.Personne>();
 				//Pour chaque résultat, on stocke les animaux dans un tableau de Personne
 				while (resultatAnimaux.hasNext()) {
@@ -78,6 +79,11 @@ public class GestionnairePhotos extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try{
+			request.getParts();
+		} catch(Exception ex){
+			
+		}
 		this.getServletContext().getRequestDispatcher("/Photo").forward(request, response);
 	}
 }

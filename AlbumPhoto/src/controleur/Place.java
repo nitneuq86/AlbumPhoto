@@ -56,7 +56,7 @@ public class Place extends HttpServlet {
 				   + "} LIMIT 6";
 				
 		//Execution de la requête sur le graph imss
-		ResultSet  resultat =  Sparql.getSparql().requete(requete, "http://dbpedia.org");
+		ResultSet  resultat =  Sparql.getSparql().requeteSPARQL(requete, "http://dbpedia.org");
 		JsonArray places = new JsonArray();
 		
 		while (resultat.hasNext()) {

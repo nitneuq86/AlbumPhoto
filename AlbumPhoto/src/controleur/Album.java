@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import dao.DAOFactory;
+import metier.Sparql;
 import modele.Personne;
 
 @WebServlet(urlPatterns = {"/Album", "/Album/*", "/Album_delete/*"})
@@ -66,6 +68,7 @@ public class Album extends HttpServlet {
 				
 				if(album.getCreateur().getId() == personne.getId()){
 					personne.getAlbums().remove(album);
+					supprimerAlbumGraph(album.getId());
 					DAOFactory.getInstance().getAlbumDao().delete(album);
 					
 					request.setAttribute("code", "200");
@@ -102,6 +105,8 @@ public class Album extends HttpServlet {
 				modele.Album album = new modele.Album(titre, date, personne);
 				DAOFactory.getInstance().getAlbumDao().create(album);
 				
+				ajoutAlbumGraph(album.getId(), album.getTitre());
+				
 				request.setAttribute("code", "200");
 				request.setAttribute("message", MESSAGE_POST_200);
 			} else {
@@ -110,6 +115,25 @@ public class Album extends HttpServlet {
 			}
 			this.getServletContext().getRequestDispatcher("/vue/gestionnaireAlbums.jsp").forward(request, response);
 		}
+	}
+
+	private void ajoutAlbumGraph(int id, String titre) {
+		String insereAlbum = 
+		  "INSERT DATA {GRAPH IMSS: {"
+        + ":album" + id + " rdf:type :Album ;"
+        + "        dc:title \"" + titre + "\" ."
+        + "} }";
+		Sparql.getSparql().requeteCRUD(insereAlbum);
+	}
+	
+	private void supprimerAlbumGraph(int id){
+		String supprAlbum = 
+				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {?album ?p ?v}} "
+			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
+				+ "		?album ?p ?v ."
+				+ "		FILTER (?album = :album" + id + ")"
+		        + "	}";
+				Sparql.getSparql().requeteCRUD(supprAlbum);
 	}
 
 	@Override
