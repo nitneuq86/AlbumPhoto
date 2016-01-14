@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import metier.Sparql;
+
 @Entity
 public class Photo {
 	public static final String path = "/Albumz/";
@@ -21,12 +23,15 @@ public class Photo {
 	public Photo() {
 	}
 
-	public Photo(Album album, Personne createur, String url, String titre) {
+	public Photo(Album album, Personne createur, String titre) {
 		this.album = album;
 		this.createur = createur;
 		this.album.getPhotos().add(this);
-		this.url = url;
 		this.titre = titre;
+	}
+	
+	public void genererURL(){
+		this.url = id + ".jpg";
 	}
 
 	public int getId() {

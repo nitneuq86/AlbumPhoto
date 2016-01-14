@@ -1,7 +1,5 @@
 package metier;
 
-import javax.persistence.Persistence;
-
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 import org.apache.jena.query.QueryExecution;
@@ -10,13 +8,15 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
 
 public class Sparql {
+	public static final String GRAPH_DEFAUT = "http://myrquent.org/albumz#";
+	
 	private static final Sparql SPARQL = new Sparql();
 	private HttpAuthenticator authenticator;
 	private String prefixs;
 	
 	private Sparql() {
 		authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
-		prefixs = "PREFIX : <http://myrquent.org/albumz#>"
+		prefixs = "PREFIX : <" + GRAPH_DEFAUT + ">"
 				+ "PREFIX IMSS: <http://imss.upmf-grenoble.fr/abdelfam>"
 				+ "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
 				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
