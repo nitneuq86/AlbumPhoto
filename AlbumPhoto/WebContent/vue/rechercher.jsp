@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +15,49 @@
 			<header>
 				<h2>Rechercher</h2>
 			</header>
-			<section id="rechercheSection">
-				<p>Sur quoi porte votre recherche ?</p>
+			<article id="rechercheSection">
+				<form method="post" action="<c:url value="/Rechercher"></c:url>">
+				<table class="formulaire">
+					<tr>
+						<td><label for="personne">Point de vue : </label></td>
+						<td>
+							<select type="text" id="personne" name="personne">
+								<option value="" selected></option>
+								<c:forEach var="personne" items="${personnes}" varStatus="num">
+									<option value="${personne.URI}">${personne.prenom} ${personne.nom}</option>
+								</c:forEach>
+							</select>
+						</td>
+					</tr>					
+				</table>
+				
+				<p id="message"></p>
+				<input type="submit" value="Envoyer">
+				</form>
+			</article>
+			
+			<c:if test="${fn.length(photos) > 0 }">
+				<article>
+					<h3>Resultat</h3>
+					<c:if test="${fn:length(photos) == 0}">Il n'y a pas de résultat correspondant à votre recherche</c:if>
+					<c:if test="${fn:length(photos) > 0}">
+						<ul class="photos">
+							<c:forEach var="photo" items="${photos}" varStatus="num">
+								<li>
+									<img src="<c:url value="${pathImages}${photo.url}"/>" style="background:url(<c:url value="${pathImages}${photo.url}"/>) center; background-size:cover;"/>
+									<p>${photo.titre}</p>
+									<form class="suppression" action="<c:url value="/GestionnairePhotos/${album.id}"></c:url>" method="post">
+										<input type="hidden" name="method" value="DELETE">
+										<input type="hidden" name="idPhoto" value="${photo.id}">
+										<input type="submit" title="Supprimer la photo de l'album" value="X">
+									</form>
+								</li>
+							</c:forEach>
+						</ul>
+					</c:if>
+				</article>
+			</c:if>
+				<%-- <p>Sur quoi porte votre recherche ?</p>
 				<select id="selecteur" onchange="afficherForm()">
 					<option <c:if test="${requestScope.typeRecherche == null}">selected</c:if>>Tout type de ressource</option>
 					<option <c:if test="${requestScope.typeRecherche == 'photo'}">selected</c:if>>Une photo</option>
@@ -81,8 +123,7 @@
 						</tr>
 					</table>
 					<input type="submit" value="Rechercher">
-				</form>
-			</section>
+				</form> --%>
 		</main>
 		<script type="text/javascript">
 			var afficherForm = function() {
