@@ -22,7 +22,7 @@ public class FiltrePermissions implements Filter {
 	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
 	
-	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription"};
+	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription", "/Place"};
 
 	public FiltrePermissions() {}
 

@@ -27,13 +27,13 @@
 								<a href="<c:url value="/GestionnairePhotos/${album.id}"></c:url>">
 									<article>
 										<c:if test="${fn:length(album.photos) >= 1}">
-											<img class="previewBigPhoto" src="<c:out value="${album.photos[0].uri}"/>" style="background:url(<c:out value="${album.photos[0].uri}"/>) center; background-size:cover;"/>
+											<img class="previewBigPhoto" src="<c:url value="${pathImages}${album.photos[0].url}"/>" style="background:url(<c:url value="${pathImages}${album.photos[0].url}"/>) center; background-size:cover;"/>
 										</c:if>
 										<c:if test="${fn:length(album.photos) >= 2}">
-											<img class="previewSmallPhoto1" src="<c:out value="${album.photos[1].uri}"/>" style="background:url(<c:out value="${album.photos[1].uri}"/>) center; background-size:cover;"/>
+											<img class="previewSmallPhoto1" src="<c:url value="${pathImages}${album.photos[1].url}"/>" style="background:url(<c:url value="${pathImages}${album.photos[1].url}"/>) center; background-size:cover;"/>
 										</c:if>
 										<c:if test="${fn:length(album.photos) >= 3}">
-											<img class="previewSmallPhoto2" src="<c:out value="${album.photos[2].uri}"/>" style="background:url(<c:out value="${album.photos[2].uri}"/>) center; background-size:cover;"/>
+											<img class="previewSmallPhoto2" src="<c:url value="${pathImages}${album.photos[2].url}"/>" style="background:url(<c:url value="${pathImages}${album.photos[2].url}"/>) center; background-size:cover;"/>
 										</c:if>
 									</article>
 									<p><c:out value="${album.titre}"></c:out></p>

@@ -271,3 +271,30 @@ body>main>section>article ul.albums>li>a>article>img.previewSmallPhoto2 {
 	top: 65px;
 	padding-left: 50px;
 }
+
+#ajoutPersonne {
+	background-image: url(images/plus.png);
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: -25px;
+}
+
+.ajoutPersonne {
+	position: relative;
+}
+
+#ajoutObjet {
+	background-image: url(images/plus.png);
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: -25px;
+}
+
+.ajoutObjet {
+	position: relative;
+}
+#message {
+	color: red;
+}
