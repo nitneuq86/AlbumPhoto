@@ -7,6 +7,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/ressources/style.css"/>">
+		<script type="text/javascript" src="<c:url value="/ressources/javascript/CRUD.js"/>"></script>
 		<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 		<title>Gestionnaire d'albums photo</title>
 	</head>
@@ -39,7 +40,7 @@
 				</article>
 				<article>
 					<h3>Ajouter une photo</h3>
-					<form method="post" action="<c:url value="/GestionnairePhotos/${album.id}"></c:url>" enctype="multipart/form-data">
+					<form method="post" onsubmit="return submitForm();" action="<c:url value="/GestionnairePhotos/${album.id}"></c:url>" enctype="multipart/form-data">
 						<table class="formulaire">
 							<tr>
 								<td><label for="titre">Titre :</label></td>
@@ -55,18 +56,35 @@
 							</tr>
 							<tr>
 								<td><label for="qui">Qui :</label></td>
-								<td>
-									<select name="qui[]">
-										<option value="" selected>Personne</option>
+								<td class="ajoutPersonne">
+									<select name="qui" id="qui">
+										<option value="personne" selected>Personne</option>
 										<c:forEach var="personne" items="${personnes}" varStatus="num">
 											<option value="${personne.URI}">${personne.prenom} ${personne.nom}</option>
 										</c:forEach>
+										<c:forEach var="animal" items="${animaux}" varStatus="num">
+											<option value="${animal.URI}">${animal.prenom} ${animal.nom}</option>
+										</c:forEach>		
 							   	  	</select>
+							   	  	<a id="ajoutPersonne" href="#" onClick="return ajoutPersonne();"></a>
 						   	 	</td>
 							</tr>
 							<tr>
 								<td><label for="ou">Où :</label></td>
-								<td><input type="text" id="ou" name="ou" onkeyup="verificationEndroit"/></td>
+								<td>
+									<input type="text" id="ou" name="ou" onkeyup="verificationPlace()" list="places"/>
+									<input type="hidden" name="ou-hidden" id="ou-hidden">
+									<datalist id="places">
+											<option data-value="bidule">Machin</option>
+									</datalist>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="quoi">Quoi :</label></td>
+								<td class="ajoutObjet">
+									<input type="text" id="quoi" name="quoi"/>
+									<a id="ajoutObjet" href="#" onClick="return ajoutObjet();"></a>
+								</td>
 							</tr>
 							<tr>
 								<td><label for="createur">Auteur :</label></td>
@@ -80,6 +98,7 @@
 							</tr>
 						</table>
 						<input type="hidden" name="idAlbum" value="<c:out value="${album.id}"></c:out>">
+						<p id="message"></p>
 						<input type="submit" value="Ajouter">
 					</form>
 					<c:if test="${code == 400}"><p class="erreur">Erreur : <c:out value="${message}"></c:out></p></c:if>
