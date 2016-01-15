@@ -6,9 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
 
 import dao.DAOFactory;
 import metier.Sparql;
@@ -54,12 +48,13 @@ public class Photo extends HttpServlet {
 			response.getWriter().append("</table>");
 		}
 		else {
-			/*modele.Photo photo = DAOFactory.getInstance().getPhotoDao().read(Integer.parseInt(path));
+			modele.Photo photo = DAOFactory.getInstance().getPhotoDao().read(Integer.parseInt(path));
 			if(photo != null) {
+				request.setAttribute("pathImages", modele.Photo.path);
 				request.setAttribute("photo", photo);
 				this.getServletContext().getRequestDispatcher("/vue/photo.jsp").forward(request, response);
 			}
-			else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);*/
+			else this.getServletContext().getRequestDispatcher("/vue/ressourceIntrouvable.jsp").forward(request, response);
 		}
 	}
 	
@@ -68,12 +63,8 @@ public class Photo extends HttpServlet {
 			if(request.getParameter("method").equals("DELETE")) doDelete(request, response);
 		}
 		else {
-			// Récupére les paramètre de la photo qui doit être créée
-//			String URL = (String) request.getAttribute("urlPhoto");
 			modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(request.getParameter("idAlbum")));
-//			
-//			System.out.println(request.getParameter("ou-hidden"));
-//			String[] quiTab = request.getParameterValues("qui");
+
 						
 			if(album != null) {
 				try {
@@ -129,7 +120,6 @@ public class Photo extends HttpServlet {
 			
 			if(photo.getAlbum().getCreateur().getId() == personne.getId()){
 				photo.getAlbum().getPhotos().remove(photo);
-//				supprimerPhotoGraph(photo.getId(), photo.getAlbum().getId());
 				DAOFactory.getInstance().getPhotoDao().delete(photo);
 				
 				File file = new File(getServletContext().getRealPath("") + modele.Photo.path + photo.getUrl());
