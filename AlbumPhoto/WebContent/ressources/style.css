@@ -112,12 +112,20 @@ body>main>section>article ul.photos>li {
 	padding: 10px;
 }
 
-body>main>section>article ul.photos>li>img {
+body>main>section>article ul.photos>li>a {
+	display: block;
+}
+
+body>main>section>article ul.photos>li>a>img {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 140px;
 	height: 120px;
 	padding-left: 140px;
+}
+
+article.displayPhoto {
+	text-align: center;
 }
 
 body>main>section>article ul.photos>li>p {

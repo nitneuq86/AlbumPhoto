@@ -25,8 +25,8 @@
 					<ul class="photos">
 						<c:forEach var="photo" items="${album.photos}" varStatus="num">
 							<li>
-								<img src="<c:url value="${pathImages}${photo.url}"/>" style="background:url(<c:url value="${pathImages}${photo.url}"/>) center; background-size:cover;"/>
-								<p>${num.index+1}</p>
+								<a href="<c:url value="/Photo/${photo.id}"/>"> <img src="<c:url value="${pathImages}${photo.url}"/>" style="background:url(<c:url value="${pathImages}${photo.url}"/>) center; background-size:cover;"/></a>
+								<p>${photo.titre}</p>
 								<form class="suppression" action="<c:url value="/GestionnairePhotos/${album.id}"></c:url>" method="post">
 									<input type="hidden" name="method" value="DELETE">
 									<input type="hidden" name="idPhoto" value="${photo.id}">
@@ -75,6 +75,7 @@
 									<input type="text" id="ou" name="ou" onkeyup="verificationPlace()" list="places"/>
 									<input type="hidden" name="ou-hidden" id="ou-hidden">
 									<datalist id="places">
+										<option data-value="bidule">Bidule</option>
 									</datalist>
 								</td>
 							</tr>
