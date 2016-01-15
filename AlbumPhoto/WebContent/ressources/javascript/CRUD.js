@@ -46,7 +46,6 @@ function PUT(controleur, parametres){
 }
 
 function DELETE(controleur, parametres){
-	console.log("bidule");
 	var xhr = getXMLHttpRequest();
 	
 	xhr.onreadystatechange = function() {
@@ -120,7 +119,6 @@ function traitementPlaces(response){
 		options += '<option data-value="' + element.uri + '">' + element.place + '</option>';
 	});
 	places.innerHTML = options;
-	console.log(response);
 }
 
 function ajoutPersonne(){

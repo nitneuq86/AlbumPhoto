@@ -86,6 +86,16 @@
 								</td>
 							</tr>
 							<tr>
+								<td><label for="evenement">Evenement :</label></td>
+								<td>
+									<select name="evenement" id="evenement">
+											<c:forEach var="evenement" items="${evenements}" varStatus="num">
+												<option value="${evenement.URI}">${evenement.title}</option>
+											</c:forEach>
+							   	  	</select>
+						   	  	</td>
+							</tr>
+							<tr>
 								<td><label for="createur">Auteur :</label></td>
 								<td>
 									<select name="createur" id="createur">

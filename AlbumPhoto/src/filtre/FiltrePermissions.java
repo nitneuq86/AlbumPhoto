@@ -47,9 +47,7 @@ public class FiltrePermissions implements Filter {
         		return;
         	}
         }
-        
-        
-        
+
         if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
         	boolean isAdminPage = false;
         	for(String cheminAdministration : cheminsAdministration) {
@@ -59,7 +57,7 @@ public class FiltrePermissions implements Filter {
         	if(isAdminPage) {
         		Utilisateur utilisateur = (modele.Utilisateur)request.getSession().getAttribute(Connexion.ATT_USER_SESSION);
         		if(utilisateur.getAdmin() == true) chain.doFilter(request, response);
-        		else response.sendRedirect(request.getContextPath() + "/Connexion");
+        		else response.sendRedirect(request.getContextPath() + "/");
         	}
         	else chain.doFilter(request, response);
 		}

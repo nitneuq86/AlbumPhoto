@@ -57,18 +57,18 @@ public class Data {
 	public static void main(String[] args) {
 //		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 		
-		String supprPhotoAlbum = 
-				"DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {?album ?p ?v}} "
-					    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
-						+ "		?album ?p ?v ."
-						+ "		FILTER (?album = :album 6002 && ?p = :hasPhoto && ?v = :photo 6351 )"
-				        + "	}";
-		System.out.println("Machin");
+//		String supprPhotoAlbum = 
+//				"DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {?album ?p ?v}} "
+//					    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
+//						+ "		?album ?p ?v ."
+//						+ "		FILTER (?album = :album 6002 && ?p = :hasPhoto && ?v = :photo 6351 )"
+//				        + "	}";
+//		System.out.println("Machin");
 		
-//		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
-//		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
-//		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
-//		up.execute();
+		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
+		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
+		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
+		up.execute();
 		
 //		String insertAlbum = "PREFIX : <http://myrquent.org/albumz#> "
 //				+ "PREFIX IMSS: <http://imss.upmf-grenoble.fr/abdelfam>"
