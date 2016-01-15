@@ -1,9 +1,12 @@
 package metier;
 
+import java.util.ArrayList;
+
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Model;
@@ -54,5 +57,66 @@ public class Sparql {
 		UpdateRequest req = UpdateFactory.create(prefixs + " " + requete);
 		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, SPARQL_ENDPOINT, authenticator);
 		up.execute();
+	}
+	
+	public ArrayList<modele.Personne> getPersonnes(){
+		//Requête permettant de récupérer toutes les personnes présentes dans le graphe
+		String requetePersonnes = "SELECT ?person ?firstName ?familyName "
+							   + "WHERE"
+							   + "{"
+							   + "	?person rdf:type foaf:Person ;"
+							   + "	foaf:firstName ?firstName ;"
+							   + "	foaf:familyName ?familyName ."
+							   + "}";
+				
+		//Execution de la requête sur le graph imss
+		ResultSet  resultatPersonnes =  requeteSPARQL(requetePersonnes, "http://imss.upmf-grenoble.fr/abdelfam");
+		ArrayList<modele.Personne> personnes = new ArrayList<modele.Personne>();
+		//Pour chaque résultat, on stocke les personnes dans un tableau de Personne
+		while (resultatPersonnes.hasNext()) {
+			QuerySolution s = resultatPersonnes.nextSolution();
+			personnes.add(new modele.Personne(s.getLiteral("?firstName").toString(), s.getLiteral("?familyName").toString(), s.getResource("?person").toString()));
+		}
+		return personnes;
+	}
+	
+	public ArrayList<modele.Personne> getAnimaux(){
+		String requeteAnimaux = "SELECT ?animal ?title "
+				   + "WHERE"
+				   + "{"
+				   + "	?animal a :Animal ;"
+				   + "	:title ?title ;"
+				   + "}";
+		
+		//Execution de la requête sur le graph imss
+		ResultSet  resultatAnimaux =  requeteSPARQL(requeteAnimaux, "http://imss.upmf-grenoble.fr/abdelfam");
+		ArrayList<modele.Personne> animaux = new ArrayList<modele.Personne>();
+		//Pour chaque résultat, on stocke les animaux dans un tableau de Personne
+		while (resultatAnimaux.hasNext()) {
+			QuerySolution s = resultatAnimaux.nextSolution();
+			animaux.add(new modele.Personne(s.getLiteral("?title").toString(), "", s.getResource("?animal").toString()));
+		}
+		
+		return animaux;
+	}
+	
+	public ArrayList<modele.Evenement> getEvenement(){
+		String requeteEvenement = "SELECT ?evenement ?title "
+				   + "WHERE"
+				   + "{"
+				   + "	?evenement a :Event ;"
+				   + "	:title ?title ;"
+				   + "}";
+		
+		//Execution de la requête sur le graph imss
+		ResultSet  resultatEvenement =  requeteSPARQL(requeteEvenement, "http://imss.upmf-grenoble.fr/abdelfam");
+		ArrayList<modele.Evenement> evenements = new ArrayList<modele.Evenement>();
+		//Pour chaque résultat, on stocke les evenements dans un tableau d'Evenement
+		while (resultatEvenement.hasNext()) {
+			QuerySolution s = resultatEvenement.nextSolution();
+			evenements.add(new modele.Evenement(s.getLiteral("?title").toString(), s.getResource("?evenement").toString()));
+		}
+		
+		return evenements;
 	}
 }

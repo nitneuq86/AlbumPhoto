@@ -35,8 +35,8 @@ public class Rechercher extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<modele.Personne> personnes = getPersonnes();
-		ArrayList<modele.Personne> animaux = getAnimaux();
+		ArrayList<modele.Personne> personnes = Sparql.getSparql().getPersonnes();
+		ArrayList<modele.Personne> animaux = Sparql.getSparql().getAnimaux();
 		
 //		request.setAttribute("pathImages", modele.Photo.path);	
 		request.setAttribute("personnes", personnes);
@@ -49,8 +49,8 @@ public class Rechercher extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<modele.Personne> personnes = getPersonnes();
-		ArrayList<modele.Personne> animaux = getAnimaux();
+		ArrayList<modele.Personne> personnes = Sparql.getSparql().getPersonnes();
+		ArrayList<modele.Personne> animaux = Sparql.getSparql().getAnimaux();
 		String personne = request.getParameter("personne");
 		
 		String requeteRecherche = "SELECT ?id "
@@ -75,47 +75,4 @@ public class Rechercher extends HttpServlet {
 		
 		this.getServletContext().getRequestDispatcher("/vue/rechercher.jsp").forward(request, response);
 	}
-	
-	
-	public ArrayList<modele.Personne> getPersonnes(){
-		//Requête permettant de récupérer toutes les personnes présentes dans le graphe
-		String requetePersonnes = "SELECT ?person ?firstName ?familyName "
-							   + "WHERE"
-							   + "{"
-							   + "	?person rdf:type foaf:Person ;"
-							   + "	foaf:firstName ?firstName ;"
-							   + "	foaf:familyName ?familyName ."
-							   + "}";
-				
-		//Execution de la requête sur le graph imss
-		ResultSet  resultatPersonnes =  Sparql.getSparql().requeteSPARQL(requetePersonnes, "http://imss.upmf-grenoble.fr/abdelfam");
-		ArrayList<modele.Personne> personnes = new ArrayList<modele.Personne>();
-		//Pour chaque résultat, on stocke les personnes dans un tableau de Personne
-		while (resultatPersonnes.hasNext()) {
-			QuerySolution s = resultatPersonnes.nextSolution();
-			personnes.add(new modele.Personne(s.getLiteral("?firstName").toString(), s.getLiteral("?familyName").toString(), s.getResource("?person").toString()));
-		}
-		return personnes;
-	}
-	
-	public ArrayList<modele.Personne> getAnimaux(){
-		String requeteAnimaux = "SELECT ?animal ?title "
-				   + "WHERE"
-				   + "{"
-				   + "	?animal a :Animal ;"
-				   + "	:title ?title ;"
-				   + "}";
-		
-		//Execution de la requête sur le graph imss
-		ResultSet  resultatAnimaux =  Sparql.getSparql().requeteSPARQL(requeteAnimaux, "http://imss.upmf-grenoble.fr/abdelfam");
-		ArrayList<modele.Personne> animaux = new ArrayList<modele.Personne>();
-		//Pour chaque résultat, on stocke les animaux dans un tableau de Personne
-		while (resultatAnimaux.hasNext()) {
-			QuerySolution s = resultatAnimaux.nextSolution();
-			animaux.add(new modele.Personne(s.getLiteral("?title").toString(), "", s.getResource("?animal").toString()));
-		}
-		
-		return animaux;
-	}
-
 }

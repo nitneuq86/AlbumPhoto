@@ -75,7 +75,6 @@
 									<input type="text" id="ou" name="ou" onkeyup="verificationPlace()" list="places"/>
 									<input type="hidden" name="ou-hidden" id="ou-hidden">
 									<datalist id="places">
-										<option data-value="bidule">Bidule</option>
 									</datalist>
 								</td>
 							</tr>
@@ -90,9 +89,10 @@
 								<td><label for="evenement">Evenement :</label></td>
 								<td>
 									<select name="evenement" id="evenement">
-											<c:forEach var="evenement" items="${evenements}" varStatus="num">
-												<option value="${evenement.URI}">${evenement.title}</option>
-											</c:forEach>
+										<option value="" selected></option>
+										<c:forEach var="evenement" items="${evenements}" varStatus="num">
+											<option value="${evenement.URI}">${evenement.titre}</option>
+										</c:forEach>
 							   	  	</select>
 						   	  	</td>
 							</tr>

@@ -1,20 +1,19 @@
 package modele;
 
 public class Evenement {
-	private String name;
+	private String titre;
 	private String URI;
 		
-	public Evenement(String name, String uRI) {
-		super();
-		this.name = name;
-		URI = uRI;
+	public Evenement(String titre, String URI) {
+		this.titre = titre;
+		this.URI = URI;
 	}
 	
-	public String getName() {
-		return name;
+	public String getTitre() {
+		return titre;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitre(String titre) {
+		this.titre = titre;
 	}
 	public String getURI() {
 		return URI;

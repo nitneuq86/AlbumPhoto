@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controleur.Connexion;
+import controleur.Photo;
 import modele.Personne;
 import modele.Utilisateur;
 
@@ -23,6 +24,7 @@ import modele.Utilisateur;
 public class FiltrePermissions implements Filter {
 	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
+	public static String PATH_WORKSPACE = "";
 	
 	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription"};
 	public static String[] cheminsAdministration = {"/Utilisateur", "/Personne", "/Album", "/Photo"};
@@ -36,6 +38,10 @@ public class FiltrePermissions implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession();
+        
+        if(FiltrePermissions.PATH_WORKSPACE.equals("")){
+        	FiltrePermissions.PATH_WORKSPACE = req.getServletContext().getRealPath("");
+		}
         
         String path = request.getRequestURI().substring("/AlbumPhoto".length());
         
