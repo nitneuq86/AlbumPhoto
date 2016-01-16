@@ -64,7 +64,6 @@ public class Photo extends HttpServlet {
 		else {
 			modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(request.getParameter("idAlbum")));
 
-						
 			if(album != null) {
 				try {
 					request.getParts();

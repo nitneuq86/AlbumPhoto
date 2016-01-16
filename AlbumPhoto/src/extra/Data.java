@@ -65,10 +65,10 @@ public class Data {
 //				        + "	}";
 //		System.out.println("Machin");
 		
-		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
-		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
-		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
-		up.execute();
+//		HttpAuthenticator authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
+//		UpdateRequest req = UpdateFactory.create("CLEAR GRAPH  <http://imss.upmf-grenoble.fr/abdelfam>");
+//		UpdateProcessor up = UpdateExecutionFactory.createRemoteForm(req, "https://imss-www.upmf-grenoble.fr/sparql", authenticator);
+//		up.execute();
 		
 //		String insertAlbum = "PREFIX : <http://myrquent.org/albumz#> "
 //				+ "PREFIX IMSS: <http://imss.upmf-grenoble.fr/abdelfam>"

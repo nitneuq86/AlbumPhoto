@@ -50,11 +50,6 @@ public class GestionnairePhotos extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try{
-			request.getParts();
-		} catch(Exception ex){
-			
-		}
 		this.getServletContext().getRequestDispatcher("/Photo").forward(request, response);
 	}
 }
