@@ -53,7 +53,7 @@
 					</c:if>
 					<c:if test="${fn:length(photo.evenement) != 0}">
 						<tr>
-							<td><label for="evenement">Quoi :</label></td>
+							<td><label for="evenement">Evenement :</label></td>
 							<td><input type="text" id="evenement" name="evenement" value="${photo.evenement}" disabled></td>
 						</tr>
 					</c:if>

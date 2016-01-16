@@ -3,7 +3,9 @@ package metier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
@@ -20,6 +22,8 @@ import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import modele.Photo;
 import sun.applet.AppletThreadGroup;
@@ -53,7 +57,7 @@ public class Sparql {
 				prefixs + " " + requete, 
 				graph,
 				authenticator)) {
-
+			System.out.println(qe.getQuery());
 			ResultSet rs = qe.execSelect();;
 			rs = ResultSetFactory.copyResults(rs) ;
 			AggGroupConcatDistinct group;
@@ -149,7 +153,11 @@ public class Sparql {
 	}
 	
 	public Photo getSemAttributs(modele.Photo photo) {
-		String requeteAttributsPhoto = "SELECT ?date ?photographe ?ou (GROUP_CONCAT ( DISTINCT ?qui;separator=\"|\") as ?quis) (GROUP_CONCAT ( DISTINCT ?quoi;separator=\"|\") as ?quois) ?evenement "
+		String requeteAttributsPhoto = "SELECT ?date ?photographe ?ou "
+				   + "						(GROUP_CONCAT ( DISTINCT ?qui;separator=\"|\") AS ?quis) "
+				   + "						(GROUP_CONCAT ( DISTINCT ?quiAnimal;separator=\"|\") AS ?quisAnimal)"
+				   + "						(GROUP_CONCAT ( DISTINCT ?quoi;separator=\"|\") AS ?quois) "
+				   + "						?evenement "
 				   + "WHERE"
 				   + "{"
 				   + "	?photo :when ?date ;"
@@ -159,20 +167,28 @@ public class Sparql {
 				   + "					foaf:familyName ?nomFamille ."
 				   + "	OPTIONAL { "
 				   + "		?photo :who ?quiURI ."
-				   + "		?quiURI	foaf:firstName ?quiPrenom ;"
-				   + "				foaf:familyName ?quiNomFamille"
-				   + "		BIND(CONCAT(?quiPrenom, \" \", ?quiNomFamille) AS ?qui)"
+				   + "		OPTIONAL { "
+				   + "			?quiURI	foaf:firstName ?quiPrenom ;"
+				   + "					foaf:familyName ?quiNomFamille ."
+				   + "			BIND(CONCAT(?quiPrenom, \" \", ?quiNomFamille) AS ?qui)"
+				   + "		}"
+				   + "		OPTIONAL {"
+				   + "			?quiURI	:title ?quiAnimal ."
+				   + "		}"
 				   + "	}"
                    + "	OPTIONAL { "
                    + "		?photo :what ?quoiURI ."
                    + "		?quoiURI :title ?quoi"
                    + "	}"
-                   + "	OPTIONAL { ?photo :type ?evenement}"
+                   + "	OPTIONAL { "
+                   + "		?photo :type ?evenementURI ."
+                   + "		?evenementURI :title ?evenement}"
                    + "	BIND(CONCAT(?prenom, \" \", ?nomFamille) AS ?photographe)"
                    + "	FILTER(?photo = :photo" + photo.getId() + ")"
 				   + "}"
 				   + "GROUP BY ?date ?photographe ?ou ?evenement";
-
+		
+		
 		ResultSet  resultatAttributsPhoto =  requeteSPARQL(requeteAttributsPhoto, 
 				"http://imss.upmf-grenoble.fr/abdelfam");
 		
@@ -181,14 +197,15 @@ public class Sparql {
 			String date = s.getLiteral("?date").getString();
 			String photographe = s.getLiteral("?photographe").getString();
 			String ou = getPlace(s.getResource("?ou").getURI());
-			String[] quis = s.getLiteral("?quis") == null ? null : s.getLiteral("?quis").getString().split("\\|");
-			String[] quois = s.getLiteral("?quois") == null ? null : s.getLiteral("?quois").getString().split("\\|");
-			String evenement = s.getResource("?evenement") == null ? "" : s.getResource("?evenement").getURI();
+			String[] quis = s.getLiteral("?quis").getString().equals("") ? null : s.getLiteral("?quis").getString().split("\\|");
+			String[] quisAnimal = s.getLiteral("?quisAnimal").getString().equals("") ? null : s.getLiteral("?quisAnimal").getString().split("\\|");
+			String[] quois = s.getLiteral("?quois").getString().equals("") ? null : s.getLiteral("?quois").getString().split("\\|");
+			String evenement = s.getLiteral("?evenement") == null ? "" : s.getLiteral("?evenement").getString();
 			
 			photo.setDate(date);
 			photo.setPhotographe(photographe);
 			photo.setOu(ou);
-			photo.setQui(quis);
+			photo.setQui((String[])ArrayUtils.addAll(quis, quisAnimal));
 			photo.setQuoi(quois);
 			photo.setEvenement(evenement);
 		}
