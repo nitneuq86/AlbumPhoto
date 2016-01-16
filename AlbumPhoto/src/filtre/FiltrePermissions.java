@@ -39,6 +39,8 @@ public class FiltrePermissions implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession();
         
+        request.setCharacterEncoding("UTF-8");
+        
         if(FiltrePermissions.PATH_WORKSPACE.equals("")){
         	FiltrePermissions.PATH_WORKSPACE = req.getServletContext().getRealPath("");
 		}

@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import dao.DAOFactory;
-import metier.Sparql;
 import modele.Personne;
 
 @WebServlet(urlPatterns = {"/Photo", "/Photo/*"})
@@ -143,8 +142,9 @@ public class Photo extends HttpServlet {
 	    InputStream filecontent = null;
 
 	    try {
-	    	System.out.println();
-	    	new File(getServletContext().getRealPath("") + modele.Photo.path).mkdirs();
+	    	if(new File(getServletContext().getRealPath("") + modele.Photo.path).exists()){
+	    		new File(getServletContext().getRealPath("") + modele.Photo.path).mkdirs();
+	    	}
 	    	File file = new File(getServletContext().getRealPath("") + modele.Photo.path + filename);
 	        out = new FileOutputStream(file);
 	        filecontent = filePart.getInputStream();
@@ -155,19 +155,27 @@ public class Photo extends HttpServlet {
 	        while ((read = filecontent.read(bytes)) != -1) {
 	            out.write(bytes, 0, read);
 	        }
-	        LOGGER.log(Level.INFO, "File{0}being uploaded to {1}", 
+	        
+	        
+	        LOGGER.log(Level.INFO, "File {0} being uploaded to {1}", 
 	                new Object[]{filename, modele.Photo.path});
 	    } catch (FileNotFoundException fne) {
 
 	        LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", 
 	                new Object[]{fne.getMessage()});
 	    } finally {
-	        if (out != null) {
-	            out.close();
-	        }
-	        if (filecontent != null) {
+	    	if (filecontent != null) {
+	        	LOGGER.log(Level.INFO, "FILE CLOSED.");
 	            filecontent.close();
+	            filecontent = null;
 	        }
+	        if (out != null) {
+	        	out.flush();
+	        	out.close();
+	        	out = null;
+	        	LOGGER.log(Level.INFO, "BUFFER CLOSED.");
+	        }
+	        
 	    }
 	}
 }
