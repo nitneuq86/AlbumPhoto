@@ -24,7 +24,7 @@ public class PhotoDao extends JPADao<Photo, Integer> {
 		OpenJPAId id = super.create(obj);
 		obj.genererURL();
 		update(obj);
-		Sparql.getSparql().ajoutPhotoGraph(obj.getId(), obj.getTitre(), obj.getDate(), obj.getPhotographe(), obj.getAlbum().getId(), obj.getOu(), obj.getQui(), obj.getQuoi(), obj.getEvenement());
+		Sparql.getSparql().ajoutPhoto(obj.getId(), obj.getTitre(), obj.getDate(), obj.getPhotographe(), obj.getAlbum().getId(), obj.getOu(), obj.getQui(), obj.getQuoi(), obj.getEvenement());
 		return id;
 	}
 	
@@ -32,7 +32,6 @@ public class PhotoDao extends JPADao<Photo, Integer> {
 	@Override
 	public Photo read(Integer id) {
 		modele.Photo photo = super.read(id);
-		photo = Sparql.getSparql().getSemAttributs(photo);
 		return photo;
 	}
 }

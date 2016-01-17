@@ -16,7 +16,7 @@ public class AlbumDao extends JPADao<Album, Integer> {
 	@Override
 	public OpenJPAId create(Album obj) {
 		OpenJPAId id = super.create(obj);
-		Sparql.getSparql().ajoutAlbumGraph(obj.getId(), obj.getTitre());
+		Sparql.getSparql().ajoutAlbum(obj.getId(), obj.getTitre());
 		return id;
 	}
 	
@@ -26,7 +26,7 @@ public class AlbumDao extends JPADao<Album, Integer> {
 			modele.Photo photo = obj.getPhotos().get(i);
 			Sparql.getSparql().supprimerPhotoGraph(photo.getId(), obj.getId(), photo.getUrl());;
 		}
-		Sparql.getSparql().supprimerAlbumGraph(obj.getId());
+		Sparql.getSparql().supprimerAlbum(obj.getId());
 		super.delete(obj);
 	}
 }

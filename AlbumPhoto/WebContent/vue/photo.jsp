@@ -28,7 +28,7 @@
 						<td><input type="date" id="date" name="date" value="${photo.date}" disabled></td>
 					</tr>
 					<tr>
-						<td><label for="date">Ou :</label></td>
+						<td><label for="date">Où :</label></td>
 						<td><input type="text" id="Ou" name="Ou" value="${photo.ou}" disabled></td>
 					</tr>
 					<tr>
@@ -39,7 +39,7 @@
 						<c:forEach var="qui" items="${photo.qui}" varStatus="num">
 							<tr>
 								<td><label for="qui">Qui :</label></td>
-								<td><input type="text" id="qui${num}" name="qui" value="${qui}" disabled></td>
+								<td><input type="text" id="qui${num.count}" name="qui" value="${qui}" disabled></td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -47,7 +47,7 @@
 						<c:forEach var="qui" items="${photo.quoi}" varStatus="num">
 							<tr>
 								<td><label for="quoi">Quoi :</label></td>
-								<td><input type="text" id="quoi${num}" name="quoi" value="${qui}" disabled></td>
+								<td><input type="text" id="quoi${num.count}" name="quoi" value="${qui}" disabled></td>
 							</tr>
 						</c:forEach>
 					</c:if>

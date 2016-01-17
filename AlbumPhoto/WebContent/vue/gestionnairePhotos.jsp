@@ -26,7 +26,7 @@
 						<c:forEach var="photo" items="${album.photos}" varStatus="num">
 							<li>
 								<a href="<c:url value="/Photo/${photo.id}"/>"> <img src="<c:url value="${pathImages}${photo.url}"/>" style="background:url(<c:url value="${pathImages}${photo.url}"/>) center; background-size:cover;"/></a>
-								<p>${photo.titre}</p>
+								<p lang="fr">${photo.titre}</p>
 								<form class="suppression" action="<c:url value="/GestionnairePhotos/${album.id}"></c:url>" method="post">
 									<input type="hidden" name="method" value="DELETE">
 									<input type="hidden" name="idPhoto" value="${photo.id}">
@@ -63,10 +63,10 @@
 											<option value="${personne.URI}">${personne.prenom} ${personne.nom}</option>
 										</c:forEach>
 										<c:forEach var="animal" items="${animaux}" varStatus="num">
-											<option value="${animal.URI}">${animal.prenom} ${animal.nom}</option>
+											<option value="${animal.URI}">${animal.prenom}</option>
 										</c:forEach>		
 							   	  	</select>
-							   	  	<a id="ajoutPersonne" href="#" onClick="return ajoutPersonne();"></a>
+							   	  	<a id="ajoutPersonne" href="#" onClick='return ajoutPersonne("Qui : ");'></a>
 						   	 	</td>
 							</tr>
 							<tr>

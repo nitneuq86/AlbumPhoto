@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import dao.DAOFactory;
+import metier.Sparql;
 import modele.Personne;
 
 @WebServlet(urlPatterns = {"/Photo", "/Photo/*"})
@@ -47,6 +48,7 @@ public class Photo extends HttpServlet {
 		}
 		else {
 			modele.Photo photo = DAOFactory.getInstance().getPhotoDao().read(Integer.parseInt(path));
+			photo = Sparql.getSparql().getSemAttributs(photo);
 			if(photo != null) {
 				request.setAttribute("pathImages", modele.Photo.path);
 				request.setAttribute("photo", photo);

@@ -32,6 +32,8 @@ public class Photo {
 	private String[] quoi;
 	@Transient
 	private String evenement;
+	@Transient
+	private boolean recuperation;
 	
 	
 	public Photo() {
@@ -142,6 +144,12 @@ public class Photo {
 	public void setEvenement(String evenement) {
 		this.evenement = evenement;
 	}
+
+	public boolean getRecuperation() {
+		return false;
+	}
 	
-	
+	public void setRecuperation(boolean recuperation){
+		this.recuperation = recuperation;
+	}
 }
