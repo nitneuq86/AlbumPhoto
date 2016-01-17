@@ -68,7 +68,7 @@ public class Sparql {
 				prefixs + " " + requete, 
 				graph,
 				authenticator)) {
-			System.out.println(qe.getQuery());
+//			System.out.println(qe.getQuery());
 			ResultSet rs = qe.execSelect();;
 			rs = ResultSetFactory.copyResults(rs) ;
 			return rs ;
@@ -225,15 +225,15 @@ public class Sparql {
 	
 	public void supprimerPhotoGraph(int id, int idAlbum, String url){
 		String supprPhoto = 
-				  "DELETE { GRAPH " + GRAPH_DEFAULT + " {:photo" + id + " ?p ?v}} "
-			    + " USING " + GRAPH_DEFAULT + " WHERE{"
+				  "DELETE { GRAPH <" + GRAPH_DEFAULT + "> {:photo" + id + " ?p ?v}} "
+			    + " USING <" + GRAPH_DEFAULT + "> WHERE{"
 				+ "		:photo" + id + " ?p ?v ."
 		        + "	}";
 		requeteCRUD(supprPhoto);
 				
 		String supprPhotoAlbum = 
-				  "DELETE { GRAPH " + GRAPH_DEFAULT + " {:album" + idAlbum + " :hasPhoto :photo" + id + " }}"
-				  		+ "USING " + GRAPH_DEFAULT + " WHERE {}";
+				  "DELETE { GRAPH <" + GRAPH_DEFAULT + "> {:album" + idAlbum + " :hasPhoto :photo" + id + " }}"
+				  		+ "USING <" + GRAPH_DEFAULT + "> WHERE {}";
 				requeteCRUD(supprPhotoAlbum);
 		
 		try {
@@ -341,8 +341,8 @@ public class Sparql {
 	
 	public void supprimerAlbum(int id){
 		String supprAlbum = 
-				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {:album" + id + " ?p ?v}} "
-			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
+				  "DELETE { GRAPH <" + Sparql.GRAPH_DEFAULT + "> {:album" + id + " ?p ?v}} "
+			    + " USING <" + Sparql.GRAPH_DEFAULT + "> WHERE{"
 				+ "		:album" + id + " ?p ?v ."
 		        + "	}";
 				Sparql.getSparql().requeteCRUD(supprAlbum);
