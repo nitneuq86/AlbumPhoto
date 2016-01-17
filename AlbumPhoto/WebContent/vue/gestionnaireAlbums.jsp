@@ -36,7 +36,7 @@
 											<img class="previewSmallPhoto2" src="<c:url value="${pathImages}${album.photos[2].url}"/>" style="background:url(<c:url value="${pathImages}${album.photos[2].url}"/>) center; background-size:cover;"/>
 										</c:if>
 									</article>
-									<p><c:out value="${album.titre}"></c:out></p>
+									<p lang="fr"><c:out value="${album.titre}"></c:out></p>
 									<form class="suppression" action="GestionnaireAlbums" method="post">
 										<input type="hidden" name="method" value="DELETE">
 										<input type="hidden" name="idAlbum" value="${album.id}">

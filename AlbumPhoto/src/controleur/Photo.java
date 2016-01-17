@@ -29,7 +29,6 @@ import modele.Personne;
 public class Photo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static Logger LOGGER = Logger.getLogger(GestionnairePhotos.class.getCanonicalName());
-
 	
     public Photo() {
         super();
@@ -49,6 +48,7 @@ public class Photo extends HttpServlet {
 		}
 		else {
 			modele.Photo photo = DAOFactory.getInstance().getPhotoDao().read(Integer.parseInt(path));
+			photo = Sparql.getSparql().getSemAttributs(photo);
 			if(photo != null) {
 				request.setAttribute("pathImages", modele.Photo.path);
 				request.setAttribute("photo", photo);
@@ -65,7 +65,6 @@ public class Photo extends HttpServlet {
 		else {
 			modele.Album album = (modele.Album) DAOFactory.getInstance().getAlbumDao().read(Integer.parseInt(request.getParameter("idAlbum")));
 
-						
 			if(album != null) {
 				try {
 					request.getParts();
@@ -79,13 +78,11 @@ public class Photo extends HttpServlet {
 						String ou = "<" + request.getParameter("ou-hidden") + ">";
 						String[] qui = request.getParameterValues("qui");
 						String[] quoi = request.getParameterValues("quoi");
+						String evenement = request.getParameter("evenement");
 						
-						modele.Photo photo = new modele.Photo(album, createur, titre);
+						modele.Photo photo = new modele.Photo(album, createur, titre, date, createurParametre, ou, qui, quoi, evenement);
 						DAOFactory.getInstance().getPhotoDao().create(photo);
-						photo.genererURL();
-						DAOFactory.getInstance().getPhotoDao().update(photo);
 						processRequest(request, response, photo.getUrl());
-						ajoutPhotoGraph(photo.getId(), titre, date, createurParametre, album.getId(), ou, qui, quoi);
 						
 					} else {
 						request.setAttribute("code", "400");
@@ -104,7 +101,6 @@ public class Photo extends HttpServlet {
 				request.setAttribute("code", "400");
 				request.setAttribute("message", "un ou plusieus champs ne sont pas remplis");
 			}
-			request.setAttribute("album", album);
 			response.sendRedirect(request.getContextPath() + "/GestionnairePhotos/" + album.getId());
 		}
 	}
@@ -120,10 +116,7 @@ public class Photo extends HttpServlet {
 			
 			if(photo.getAlbum().getCreateur().getId() == personne.getId()){
 				photo.getAlbum().getPhotos().remove(photo);
-				DAOFactory.getInstance().getPhotoDao().delete(photo);
-				
-				File file = new File(getServletContext().getRealPath("") + modele.Photo.path + photo.getUrl());
-				file.delete();
+				DAOFactory.getInstance().getPhotoDao().delete(photo);	
 				
 				request.setAttribute("code", "200");
 				request.setAttribute("message", "photo supprimée");
@@ -137,7 +130,6 @@ public class Photo extends HttpServlet {
 			request.setAttribute("code", "400");
 			request.setAttribute("message", "la photo n'existe pas");
 		}
-		request.setAttribute("album", photo.getAlbum());
 		response.sendRedirect(request.getContextPath() + "/GestionnairePhotos/" + photo.getAlbum().getId());
 	}
 	
@@ -152,8 +144,9 @@ public class Photo extends HttpServlet {
 	    InputStream filecontent = null;
 
 	    try {
-	    	System.out.println();
-	    	new File(getServletContext().getRealPath("") + modele.Photo.path).mkdirs();
+	    	if(new File(getServletContext().getRealPath("") + modele.Photo.path).exists()){
+	    		new File(getServletContext().getRealPath("") + modele.Photo.path).mkdirs();
+	    	}
 	    	File file = new File(getServletContext().getRealPath("") + modele.Photo.path + filename);
 	        out = new FileOutputStream(file);
 	        filecontent = filePart.getInputStream();
@@ -164,74 +157,27 @@ public class Photo extends HttpServlet {
 	        while ((read = filecontent.read(bytes)) != -1) {
 	            out.write(bytes, 0, read);
 	        }
-	        LOGGER.log(Level.INFO, "File{0}being uploaded to {1}", 
+	        
+	        
+	        LOGGER.log(Level.INFO, "File {0} being uploaded to {1}", 
 	                new Object[]{filename, modele.Photo.path});
 	    } catch (FileNotFoundException fne) {
 
 	        LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", 
 	                new Object[]{fne.getMessage()});
 	    } finally {
-	        if (out != null) {
-	            out.close();
-	        }
-	        if (filecontent != null) {
+	    	if (filecontent != null) {
+	        	LOGGER.log(Level.INFO, "FILE CLOSED.");
 	            filecontent.close();
+	            filecontent = null;
 	        }
+	        if (out != null) {
+	        	out.flush();
+	        	out.close();
+	        	out = null;
+	        	LOGGER.log(Level.INFO, "BUFFER CLOSED.");
+	        }
+	        
 	    }
-	}
-	
-	private void ajoutPhotoGraph(int id, String titre, String date, String createur, int idAlbum, String ou, String[] qui, String[] quoi) {	
-		String quoiString = "";
-		String selfie = "";
-		for (int i = 0; i < quoi.length; i++) {
-			if(!quoi[i].trim().equals("")){
-				String uriQuoi = ":" + quoi[i].trim().replace(" ", "_").toLowerCase();
-				String insereQuoi = 
-						  "INSERT DATA {GRAPH IMSS: {"
-				        + uriQuoi + " a :Objet ;"
-		        		+ ":title \"" + quoi[i] + "\" ."
-				        + "} }";
-				Sparql.getSparql().requeteCRUD(insereQuoi);
-				
-				quoiString += " :quoi " + uriQuoi + " ;";
-			}
-		}
-		
-		String quiString = "";
-		for (int i = 0; i < qui.length; i++) {
-			if(!qui[i].equals("")){
-				quiString += " :who <" + qui[i] + ">";
-				if(i == qui.length - 1){
-					quiString += " .";
-				} else {
-					quiString += " ;";
-				}
-			}
-		}
-		
-		if(qui.length == 1 && ("<" + qui[0] + ">").equals(createur)){
-			selfie += "rdf:type :Selfie ;"; 
-		}
-		
-		String inserePhoto = 
-				  "INSERT DATA {GRAPH IMSS: {"
-		        + "		:photo" + id + " rdf:type :Photo ;"
-		        + "     				 dc:title \"" + titre + "\" ;"
-        		+ "						 :hasID \"" + id + "\" ;"
-				+ "						 :when \"" + date + "\" ;"
-				+ "						 :creator " + createur + " ;"
-				+ "						 :hasAlbum :album" + idAlbum + " ;"
-				+ "						 " + selfie
-				+ "						 :where " + ou + " ;"
-				+ "						 " + quoiString
-				+ "						 " + quiString
-		        + "} }";
-		Sparql.getSparql().requeteCRUD(inserePhoto);
-				
-		String insereDansAlbum = 
-				  "INSERT DATA {GRAPH IMSS: {"
-		        + ":album" + idAlbum + " :hasPhoto :photo" + id + " ."
-		        + "} }";
-		Sparql.getSparql().requeteCRUD(insereDansAlbum);
 	}
 }

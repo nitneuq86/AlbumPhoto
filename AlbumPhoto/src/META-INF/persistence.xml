@@ -11,7 +11,7 @@
 		<properties>
 			<!-- property name="openjpa.RuntimeUnenhancedClasses" value="supported"/ -->
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://imss-db.upmf-grenoble.fr:5432/abdelfam?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://imss-db.upmf-grenoble.fr:5432/abdelfam?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory&amp;characterEncoding=UTF-8" />
 			<!-- <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/albumz"/> -->
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema"/>
 			<property name="javax.persistence.jdbc.user" value="abdelfam"/>
