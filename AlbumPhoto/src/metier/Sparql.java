@@ -3,7 +3,11 @@ package metier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.jena.atlas.json.JsonArray;
@@ -15,37 +19,44 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.sparql.engine.http.QueryEngineHTTP;
-import org.apache.jena.sparql.expr.aggregate.AggGroupConcatDistinct;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
+import dao.DAOFactory;
 import modele.Photo;
-import sun.applet.AppletThreadGroup;
 
 public class Sparql {
 	public static final String ONTOLOGIE = "http://myrquent.org/albumz#";
-	public static final String GRAPH_DEFAULT = "<http://imss.upmf-grenoble.fr/abdelfam>";
+	public static final String GRAPH_DEFAULT = "http://imss.upmf-grenoble.fr/abdelfam";
+	public static final String GRAPH_DBPEDIA = "http://dbpedia.org";
 	public static final String SPARQL_ENDPOINT = "https://imss-www.upmf-grenoble.fr/sparql";
 	
 	private static final Sparql SPARQL = new Sparql();
 	private HttpAuthenticator authenticator;
 	private String prefixs;
+	private List<String> caracteristiques;
 	
 	private Sparql() {
 		authenticator = new SimpleAuthenticator("abdelfam", "abdelfam2015".toCharArray());
 		prefixs = "PREFIX : <" + ONTOLOGIE + ">"
-				+ "PREFIX IMSS: " + GRAPH_DEFAULT + ""
+				+ "PREFIX IMSS: <" + GRAPH_DEFAULT + ">"
 				+ "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
 				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 				+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
 				+ "PREFIX dc: <http://purl.org/dc/elements/1.1/>"
-				+ "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>";
+				+ "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>"
+				+ "PREFIX xml: <http://www.w3.org/2001/XMLSchema#>";
+		DefaultMutableTreeNode tree = traitementCaracteristiques(new DefaultMutableTreeNode(), "caracteristic", 0);
+		Enumeration<String> enumerationTree = tree.breadthFirstEnumeration();
+		this.caracteristiques = Collections.list(enumerationTree);
+		this.caracteristiques = caracteristiques.subList(1, caracteristiques.size() - 1);
+	}
+	
+	public List<String> getCaracteristiques(){
+		return this.caracteristiques;
 	}
 	
 	public static Sparql getSparql(){
@@ -60,7 +71,6 @@ public class Sparql {
 			System.out.println(qe.getQuery());
 			ResultSet rs = qe.execSelect();;
 			rs = ResultSetFactory.copyResults(rs) ;
-			AggGroupConcatDistinct group;
 			return rs ;
 		} catch(Exception ex){
 			System.out.println(ex.getMessage());
@@ -85,7 +95,7 @@ public class Sparql {
 							   + "}";
 				
 		//Execution de la requête sur le graph imss
-		ResultSet  resultatPersonnes =  requeteSPARQL(requetePersonnes, "http://imss.upmf-grenoble.fr/abdelfam");
+		ResultSet  resultatPersonnes =  requeteSPARQL(requetePersonnes, GRAPH_DEFAULT);
 		ArrayList<modele.Personne> personnes = new ArrayList<modele.Personne>();
 		//Pour chaque résultat, on stocke les personnes dans un tableau de Personne
 		while (resultatPersonnes.hasNext()) {
@@ -104,7 +114,7 @@ public class Sparql {
 				   + "}";
 		
 		//Execution de la requête sur le graph imss
-		ResultSet  resultatAnimaux =  requeteSPARQL(requeteAnimaux, "http://imss.upmf-grenoble.fr/abdelfam");
+		ResultSet  resultatAnimaux =  requeteSPARQL(requeteAnimaux, GRAPH_DEFAULT);
 		ArrayList<modele.Personne> animaux = new ArrayList<modele.Personne>();
 		//Pour chaque résultat, on stocke les animaux dans un tableau de Personne
 		while (resultatAnimaux.hasNext()) {
@@ -124,7 +134,7 @@ public class Sparql {
 				   + "}";
 		
 		//Execution de la requête sur le graph imss
-		ResultSet  resultatEvenement =  requeteSPARQL(requeteEvenement, "http://imss.upmf-grenoble.fr/abdelfam");
+		ResultSet  resultatEvenement =  requeteSPARQL(requeteEvenement, GRAPH_DEFAULT);
 		ArrayList<modele.Evenement> evenements = new ArrayList<modele.Evenement>();
 		//Pour chaque résultat, on stocke les evenements dans un tableau d'Evenement
 		while (resultatEvenement.hasNext()) {
@@ -142,7 +152,7 @@ public class Sparql {
 				   + "	<" + placeUri + "> foaf:name ?nom ."
 				   + "}";
 		
-		ResultSet  resultatPlace =  Sparql.getSparql().requeteSPARQL(requetePlace, "http://dbpedia.org");
+		ResultSet  resultatPlace = requeteSPARQL(requetePlace, GRAPH_DBPEDIA);
 		String resultat = "";
 		while (resultatPlace.hasNext()) {
 			QuerySolution s = resultatPlace.nextSolution();
@@ -215,16 +225,16 @@ public class Sparql {
 	
 	public void supprimerPhotoGraph(int id, int idAlbum, String url){
 		String supprPhoto = 
-				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {:photo" + id + " ?p ?v}} "
-			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
+				  "DELETE { GRAPH " + GRAPH_DEFAULT + " {:photo" + id + " ?p ?v}} "
+			    + " USING " + GRAPH_DEFAULT + " WHERE{"
 				+ "		:photo" + id + " ?p ?v ."
 		        + "	}";
-		Sparql.getSparql().requeteCRUD(supprPhoto);
+		requeteCRUD(supprPhoto);
 				
 		String supprPhotoAlbum = 
-				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {:album" + idAlbum + " :hasPhoto :photo" + id + " }}"
-				  		+ "USING " + Sparql.getSparql().GRAPH_DEFAULT + " WHERE {}";
-				Sparql.getSparql().requeteCRUD(supprPhotoAlbum);
+				  "DELETE { GRAPH " + GRAPH_DEFAULT + " {:album" + idAlbum + " :hasPhoto :photo" + id + " }}"
+				  		+ "USING " + GRAPH_DEFAULT + " WHERE {}";
+				requeteCRUD(supprPhotoAlbum);
 		
 		try {
 			System.out.println("File deleted : " + Files.deleteIfExists(Paths.get(filtre.FiltrePermissions.PATH_WORKSPACE + modele.Photo.path + url)));
@@ -233,43 +243,69 @@ public class Sparql {
 		}
 	}
 	
-	public void ajoutPhotoGraph(int id, String titre, String date, String createur, int idAlbum, String ou, String[] qui, String[] quoi, String evenement) {	
+	public String parseQuois(String[] quoi, boolean ajout){
 		String quoiString = "";
-		String selfie = "";
-		String evenementString = "";
+		String quoiURI = "";
+		String quoiNom = "";
+		String quoiFilter = "";
+		
+		if(ajout == false && quoi.length > 0) quoiFilter += "FILTER ( ";
 		for (int i = 0; i < quoi.length; i++) {
 			if(!quoi[i].trim().equals("")){
-				String uriQuoi = ":" + quoi[i].trim().replace(" ", "_").toLowerCase();
-				String insereQuoi = 
-						  "INSERT DATA {GRAPH IMSS: {"
-				        + uriQuoi + " a :Objet ;"
-		        		+ ":title \"" + quoi[i] + "\" ."
-				        + "} }";
-				Sparql.getSparql().requeteCRUD(insereQuoi);
-				
-				quoiString += " :what " + uriQuoi + " ;";
+				if(ajout){
+					String uriQuoi = ":" + quoi[i].trim().replace(" ", "_").toLowerCase();
+					String insereQuoi = 
+							  "INSERT DATA {GRAPH IMSS: {"
+					        + uriQuoi + " a :Objet ;"
+			        		+ ":title \"" + quoi[i] + "\" ."
+					        + "} }";
+					Sparql.getSparql().requeteCRUD(insereQuoi);
+					quoiString += " :what " + uriQuoi + " ;";
+				} else {
+					quoiURI = "?photo :what ?objetURI" + i + " . ";
+					quoiNom = "?objetURI" + i + " :title ?objet" + i + " . ";
+					if(i == quoi.length - 1)
+						quoiFilter += "(CONTAINS(lCASE(?objet" + i + "), \"" + quoi[i].trim().toLowerCase() + "\")))";
+					else
+						quoiFilter += "(CONTAINS(lCASE(?objet" + i + "), \"" + quoi[i].trim().toLowerCase() + "\")) || ";
+				}
 			}
 		}
-		
+		return (ajout == false && quoi.length > 0) ? quoiURI + quoiNom + quoiFilter : quoiString;
+	}
+	
+	public String parseQuis(String[] qui){
 		String quiString = "";
 		for (int i = 0; i < qui.length; i++) {
 			if(!qui[i].equals("")){
 				quiString += " :who <" + qui[i] + ">";
-				if(i == qui.length - 1){
-					quiString += " .";
-				} else {
-					quiString += " ;";
-				}
+				quiString += " ;";
 			}
 		}
-		
-		if(qui.length == 1 && ("<" + qui[0] + ">").equals(createur)){
-			selfie += "rdf:type :Selfie ;"; 
-		}
-		
+		return quiString;
+	}
+	
+	public String parseType(String evenement){
+		String evenementString = "";
 		if(!evenement.equals("")){
 			evenementString += ":type <" + evenement + "> ;";
 		}
+		return evenementString;
+	}
+	
+	public String isSelfie(String[] qui, String createur){
+		String selfie = "";
+		if(qui.length == 1 && ("<" + qui[0] + ">").equals(createur)){
+			selfie += "rdf:type :Selfie ;"; 
+		}
+		return selfie;
+	}
+	
+	public void ajoutPhoto(int id, String titre, String date, String createur, int idAlbum, String ou, String[] qui, String[] quoi, String evenement) {	
+		String quoiString = parseQuois(quoi, true);
+		String selfie = isSelfie(qui, createur);
+		String typeString = parseType(evenement);		
+		String quisString = parseQuis(qui);
 		
 		String inserePhoto = 
 				  "INSERT DATA {GRAPH IMSS: {"
@@ -282,8 +318,8 @@ public class Sparql {
 				+ "						 " + selfie
 				+ "						 :where " + ou + " ;"
 				+ "						 " + quoiString
-				+ "					 	 " + evenementString
-				+ "						 " + quiString
+				+ "					 	 " + typeString
+				+ "						 " + quisString
 		        + "} }";
 		Sparql.getSparql().requeteCRUD(inserePhoto);
 				
@@ -294,7 +330,7 @@ public class Sparql {
 		Sparql.getSparql().requeteCRUD(insereDansAlbum);
 	}
 	
-	public void ajoutAlbumGraph(int id, String titre) {
+	public void ajoutAlbum(int id, String titre) {
 		String insereAlbum = 
 		  "INSERT DATA {GRAPH IMSS: {"
 	    + ":album" + id + " rdf:type :Album ;"
@@ -303,7 +339,7 @@ public class Sparql {
 		Sparql.getSparql().requeteCRUD(insereAlbum);
 	}
 	
-	public void supprimerAlbumGraph(int id){
+	public void supprimerAlbum(int id){
 		String supprAlbum = 
 				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {:album" + id + " ?p ?v}} "
 			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
@@ -317,13 +353,13 @@ public class Sparql {
 		String requete = "SELECT ?ville ?nomVille "
 				   + "WHERE"
 				   + "{"
-				   + "	?ville a <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> ;"
+				   + "	?ville a geo:SpatialThing ;"
 				   + "		   foaf:name ?nomVille . "
 				   + "	FILTER(contains(lcase(?nomVille), \"" + place.toLowerCase() + "\"))"
 				   + "} LIMIT 6";
 				
 		//Execution de la requête sur le graph imss
-		ResultSet  resultat =  Sparql.getSparql().requeteSPARQL(requete, "http://dbpedia.org");
+		ResultSet  resultat =  Sparql.getSparql().requeteSPARQL(requete, GRAPH_DBPEDIA);
 		JsonArray places = new JsonArray();
 		
 		while (resultat.hasNext()) {
@@ -335,5 +371,142 @@ public class Sparql {
 		}
 		
 		return places;
+	}
+	
+	public String parseTitre(String titre){
+		String titreRequete = "";
+		if(!titre.equals("")){
+			titreRequete += "FILTER(CONTAINS(UCASE(?titre), \"" + titre.toUpperCase() + "\"))";
+		}
+		return titreRequete;
+	}
+	
+	public DefaultMutableTreeNode  traitementCaracteristiques(DefaultMutableTreeNode tree, String caracteristic, int index){
+		String requeteCaracteristiques = "SELECT ?caracteristic "
+		   + "WHERE"
+		   + "{"
+		   + "	?caracteristic rdfs:subPropertyOf :" + caracteristic + " ."
+		   + "	FILTER (!isBlank(?caracteristic))"
+		   + "}";
+		//Execution de la requête sur le graph imss
+		ResultSet  resultatCaracteristiques =  requeteSPARQL(requeteCaracteristiques, GRAPH_DEFAULT);
+		while(resultatCaracteristiques.hasNext()){
+			QuerySolution s = resultatCaracteristiques.nextSolution();
+			tree.insert(traitementCaracteristiques(new DefaultMutableTreeNode(s.getResource("?caracteristic").getLocalName()), s.getResource("?caracteristic").getLocalName(), index+1), 0);
+			index++;
+		}
+		return tree;
+	}
+
+	public ArrayList<Photo> getPhotos(String titre, String[] quis, String[] quois, String type, String ptVue, 
+			String caracteristique, String createur, String ou, boolean etendu, boolean selfie, boolean aucun,
+			boolean quelquun, String dateDebut, String dateFin) {
+		String titreRequete = parseTitre(titre);
+		String quisString = parseQuis(quis);
+		String quoisString = parseQuois(quois, false);
+		String typeString = parseType(type); 
+		String caracteristiqueString = parseCaracteristique(caracteristique, ptVue);
+		String createurString = parseCreateur(createur);
+		String ouString = parseOu(ou, etendu);
+		String selfieString = parseSelfie(selfie);
+		String aucunString = parseAucun(aucun);
+		String quelquunString = parseQuelquun(quelquun);
+		String dateString = parseDate(dateDebut, dateFin);
+		
+		String requeteRecherche = "SELECT DISTINCT ?id "
+				   + "FROM <" + GRAPH_DBPEDIA + "> "
+				   + "WHERE"
+				   + "{"
+				   + "	?photo	rdf:type :Photo ;"
+				   + "			" + quisString
+				   + "			" + typeString
+				   + "			:hasID ?id ;"
+				   + "			dc:title ?titre ."
+				   + "			" + createurString
+				   + "			" + selfieString
+				   + "			" + caracteristiqueString
+				   + "			" + quelquunString
+				   + "			" + dateString
+				   + "			" + ouString		
+				   + "	" + quoisString
+				   + "	" + titreRequete
+				   + "	" + aucunString
+				   + "}";
+		
+		//Execution de la requête sur le graph imss
+		ResultSet  resultatRecherche =  requeteSPARQL(requeteRecherche, GRAPH_DEFAULT);
+		ArrayList<modele.Photo> photos = new ArrayList<modele.Photo>();
+		while (resultatRecherche.hasNext()) {
+			QuerySolution s = resultatRecherche.nextSolution();
+			modele.Photo photo = DAOFactory.getInstance().getPhotoDao().read(s.getLiteral("?id").getInt());
+			photos.add(photo);
+		}
+		
+		return photos;
+	}
+
+	private String parseDate(String dateDebut, String dateFin) {
+		String dateString = "";
+		if(!dateDebut.equals("")){
+			if(!dateFin.equals("")){
+				dateString += "?photo :when ?date . "
+							+ "FILTER ((?date > " + dateDebut + "^^xml:date) && (?date < " + dateFin + "^^xml:date))";
+			} else {
+				dateString += "?photo :when " + dateDebut + "^^xml:date .";
+			}
+		}
+		return dateString;
+	}
+
+	private String parseQuelquun(boolean quelquun) {
+		String quelquunString = "";
+		if(quelquun){
+			quelquunString += "?photo :who ?personne . ?personne rdf:type :Personne ";
+		}
+		return quelquunString;
+	}
+
+	private String parseAucun(boolean aucun) {
+		String aucunString = "";
+		if(aucun){
+			aucunString += "NOT EXISTS { ?photo :who ?personne . ?personne rdf:type :Personne }";
+		}
+		return aucunString;
+	}
+
+	private String parseSelfie(boolean selfie) {
+		String selfieString = "";
+		if(selfie){
+			selfieString += "?photo rdf:type :Selfie .";
+		}
+		return selfieString;
+	}
+
+	private String parseOu(String ou, boolean etendu) {
+		String ouString = "";
+		if(!ou.equals("")){
+			ouString += "?photo :where ?where ."
+					  + "?where ?connectedTo ?place . "
+					  + " FILTER ( (?where = <" + ou + ">)";
+			ouString += etendu ? " || (?place = <" + ou + ">))" : ")";
+		}
+		return ouString;
+	}
+
+	private String parseCreateur(String createur) {
+		String createurString = "";
+		if(!createur.equals("")){
+			createurString += "?photo :creator <" + createur + "> . ";
+		}
+		return createurString;
+	}
+
+	private String parseCaracteristique(String caracteristique, String ptVue) {
+		String caracteristiqueString = "";
+		if(!caracteristique.equals("")){
+			caracteristiqueString += "?photo :who ?qui . ";
+			caracteristiqueString += "<" + ptVue + "> :" + caracteristique + " ?qui .";
+		}
+		return caracteristiqueString;
 	}
 }
