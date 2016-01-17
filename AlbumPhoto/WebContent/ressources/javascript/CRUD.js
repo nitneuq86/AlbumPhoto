@@ -145,9 +145,9 @@ function submitRecherche(){
 			&& (document.getElementById("aucun").checked || document.getElementById("quelquun").checked)){
 		erreur = true;
 		if(document.getElementById("aucun").checked)
-			message += "Pour chercher des photos où il n'y a personne, veuille ne pas remplir les champs de caractéristiques."
+			message += "Pour chercher des photos où il n'y a personne, veuille ne pas remplir les champs de caractéristiques. <br />"
 		if(document.getElementById("quelquun").checked)
-			message += "Pour chercher des photos où il n'y a quelqu'un, veuille ne pas remplir les champs de caractéristiques."
+			message += "Pour chercher des photos où il n'y a quelqu'un, veuille ne pas remplir les champs de caractéristiques. <br />"
 	}
 	
 	if(document.getElementById("selfie").checked || document.getElementById("aucun").checked || document.getElementById("quelquun").checked){
@@ -188,7 +188,7 @@ function submitRecherche(){
 	if(document.getElementById("dateDebut").value != "" && document.getElementById("dateFin") != ""){
 		var d1 = new Date(document.getElementById("dateDebut").value);
 		var d2 = new Date(document.getElementById("dateFin").value);
-		if(d1.getTime() < d2.getTime()){
+		if(d1.getTime() > d2.getTime()){
 			erreur = true;
 			message += "Le deuxième champs de date est antérieur au premier. <br />";
 		}

@@ -71,10 +71,10 @@ public class Rechercher extends HttpServlet {
 		String ouHidden = request.getParameter("ou-hidden");
 		boolean ouEtendu = request.getParameter("ouEtendu") != null ? true : false;
 		boolean selfie = request.getParameter("selfie") != null ? true : false;
-		boolean aucun = request.getParameter("aucune") != null ? true : false;
+		boolean aucun = request.getParameter("aucun") != null ? true : false;
 		boolean quelquun = request.getParameter("quelquun") != null ? true : false;
 		String dateDebut = request.getParameter("dateDebut");
-		String dateFin = request.getParameter("dataFin");
+		String dateFin = request.getParameter("dateFin");
 		
 		quis.removeAll(Collections.singleton(""));
 		quisAnimal.removeAll(Collections.singleton(""));

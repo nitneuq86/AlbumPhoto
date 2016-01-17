@@ -312,7 +312,7 @@ public class Sparql {
 		        + "		:photo" + id + " rdf:type :Photo ;"
 		        + "     				 dc:title \"" + titre + "\" ;"
         		+ "						 :hasID \"" + id + "\" ;"
-				+ "						 :when \"" + date + "\" ;"
+				+ "						 :when \"" + date + "\"^^xsd:date ;"
 				+ "						 :creator " + createur + " ;"
 				+ "						 :hasAlbum :album" + idAlbum + " ;"
 				+ "						 " + selfie
@@ -413,8 +413,8 @@ public class Sparql {
 		String quelquunString = parseQuelquun(quelquun);
 		String dateString = parseDate(dateDebut, dateFin);
 		
-		String requeteRecherche = "SELECT DISTINCT ?id "
-				   + "FROM <" + GRAPH_DBPEDIA + "> "
+		String requeteRecherche = "SELECT DISTINCT ?id " +
+				  (ouString.equals("") ? "" : "FROM <" + GRAPH_DBPEDIA + ">" ) + ""
 				   + "WHERE"
 				   + "{"
 				   + "	?photo	rdf:type :Photo ;"
@@ -426,11 +426,11 @@ public class Sparql {
 				   + "			" + selfieString
 				   + "			" + caracteristiqueString
 				   + "			" + quelquunString
+				   + "			" + aucunString
 				   + "			" + dateString
 				   + "			" + ouString		
 				   + "	" + quoisString
 				   + "	" + titreRequete
-				   + "	" + aucunString
 				   + "}";
 		
 		//Execution de la requête sur le graph imss
@@ -450,9 +450,9 @@ public class Sparql {
 		if(!dateDebut.equals("")){
 			if(!dateFin.equals("")){
 				dateString += "?photo :when ?date . "
-							+ "FILTER ((?date > " + dateDebut + "^^xml:date) && (?date < " + dateFin + "^^xml:date))";
+							+ "FILTER ((?date >= \"" + dateDebut + "\"^^xsd:date) && (?date <= \"" + dateFin + "\"^^xsd:date))";
 			} else {
-				dateString += "?photo :when " + dateDebut + "^^xml:date .";
+				dateString += "?photo :when \"" + dateDebut + "\"^^xsd:date .";
 			}
 		}
 		return dateString;
@@ -461,7 +461,7 @@ public class Sparql {
 	private String parseQuelquun(boolean quelquun) {
 		String quelquunString = "";
 		if(quelquun){
-			quelquunString += "?photo :who ?personne . ?personne rdf:type :Personne ";
+			quelquunString += "?photo :who ?personne . ?personne rdf:type foaf:Person ";
 		}
 		return quelquunString;
 	}
@@ -469,7 +469,7 @@ public class Sparql {
 	private String parseAucun(boolean aucun) {
 		String aucunString = "";
 		if(aucun){
-			aucunString += "NOT EXISTS { ?photo :who ?personne . ?personne rdf:type :Personne }";
+			aucunString += "FILTER NOT EXISTS { ?photo :who ?personne . ?personne rdf:type foaf:Person }";
 		}
 		return aucunString;
 	}

@@ -189,7 +189,7 @@
 						</td>
 						<td>
 							<div id="loading"></div>
-							<input ${etenduRequete == true ? 'checked' : '' } id="ouEtendu" type="checkbox" name="ouEtendu" > 
+							<input ${ouEtenduRequete == true ? 'checked' : '' } id="ouEtendu" type="checkbox" name="ouEtendu" > 
 							<label for="ouEtendu">Etendu</label>
 						</td>
 					</tr>
@@ -214,15 +214,15 @@
 					<tr>
 						<td><label for="dateDebut">Date :</label></td>
 						<td>
-							<input ${dateDebutRequete != "" ? dateDebutRequete : '' } type="date" id="dateDebut" name="dateDebut">
+							<input value="${dateDebutRequete != '' ? dateDebutRequete : '' }" type="date" id="dateDebut" name="dateDebut" >
 						</td>
-						<td><label for="dateFin">à :</label></td>
+						<td><label for="dateFin">au :</label></td>
 						<td>
-							<input ${dateFinRequete != "" ? dateFinRequete : '' } type="date" id="dateFin" name="dateFin">
+							<input value="${dateFinRequete != '' ? dateFinRequete : '' }" type="date" id="dateFin" name="dateFin" >
 						</td>
 					</tr>
 					<tr>
-						<td><label for="type">Evenement : </label></td>
+						<td><label for="type">Événement : </label></td>
 						<td>
 							<select id="type" name="type">
 								<option value=""></option>
