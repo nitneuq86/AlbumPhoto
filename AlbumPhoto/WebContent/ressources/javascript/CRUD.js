@@ -180,7 +180,7 @@ function submitRecherche(){
 		message += "Les champs \"Quelquun\" et \"Aucun\" sont incompatibles. <br/>";
 	}
 	
-	if(document.getElementById("dateDebut").value == "" && document.getElementById("dateFin") != ""){
+	if(document.getElementById("dateDebut").value == "" && document.getElementById("dateFin").value != ""){
 		erreur = true;
 		message += "Il manque la date de début. <br />";
 	}

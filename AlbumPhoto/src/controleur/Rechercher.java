@@ -42,15 +42,15 @@ public class Rechercher extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		ArrayList<modele.Personne> personnes = Sparql.getSparql().getPersonnes();
-//		ArrayList<modele.Personne> animaux = Sparql.getSparql().getAnimaux();
-//		ArrayList<modele.Evenement> evenements = Sparql.getSparql().getEvenement();
-//		List<String> caracteristiques = Sparql.getSparql().getCaracteristiques();
+		ArrayList<modele.Personne> personnes = Sparql.getSparql().getPersonnes();
+		ArrayList<modele.Personne> animaux = Sparql.getSparql().getAnimaux();
+		ArrayList<modele.Evenement> evenements = Sparql.getSparql().getEvenement();
+		List<String> caracteristiques = Sparql.getSparql().getCaracteristiques();
 		
-//		request.setAttribute("personnes", personnes);
-//		request.setAttribute("animaux", animaux);
-//		request.setAttribute("evenements", evenements);
-//		request.setAttribute("caracteristiques", caracteristiques);
+		request.setAttribute("personnes", personnes);
+		request.setAttribute("animaux", animaux);
+		request.setAttribute("evenements", evenements);
+		request.setAttribute("caracteristiques", caracteristiques);
 
 		this.getServletContext().getRequestDispatcher("/vue/rechercher.jsp").forward(request, response);
 	}
@@ -99,6 +99,7 @@ public class Rechercher extends HttpServlet {
 		request.setAttribute("createurRequete", createur);
 		request.setAttribute("ouRequete", ou);
 		request.setAttribute("ouHiddenRequete", ouHidden);
+		request.setAttribute("ouEtenduRequete", ouEtendu);
 		request.setAttribute("selfieRequete", selfie);
 		request.setAttribute("aucunRequete", aucun);
 		request.setAttribute("quelquunRequete", quelquun);

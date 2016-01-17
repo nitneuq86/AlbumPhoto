@@ -189,8 +189,8 @@
 						</td>
 						<td>
 							<div id="loading"></div>
-							<input id="ouEtendu" type="checkbox" name="ouEtendu" > 
-							<label for="ouEtendu">étendu</label>
+							<input ${etenduRequete == true ? 'checked' : '' } id="ouEtendu" type="checkbox" name="ouEtendu" > 
+							<label for="ouEtendu">Etendu</label>
 						</td>
 					</tr>
 					
