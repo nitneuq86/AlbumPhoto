@@ -34,7 +34,7 @@
 						<c:forEach var="photo" items="${album.photos}" varStatus="num">
 							<li>
 								<img src="<c:out value="${photo.uri}"/>" style="background:url(<c:out value="${photo.uri}"/>) center; background-size:cover;"/>
-								<p>${num.index+1}</p>
+								<p>${num.count}</p>
 							</li>
 						</c:forEach>
 					</ul>

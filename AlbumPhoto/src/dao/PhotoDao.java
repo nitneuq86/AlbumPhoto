@@ -2,6 +2,8 @@ package dao;
 
 import javax.persistence.EntityManager;
 
+import org.apache.openjpa.util.OpenJPAId;
+
 import metier.Sparql;
 import modele.Photo;
 
@@ -13,25 +15,23 @@ public class PhotoDao extends JPADao<Photo, Integer> {
 
 	@Override
 	public void delete(Photo obj) {
-		supprimerPhotoGraph(((modele.Photo) obj).getId(), ((modele.Photo) obj).getAlbum().getId());
+		Sparql.getSparql().supprimerPhotoGraph(((modele.Photo) obj).getId(), ((modele.Photo) obj).getAlbum().getId(), obj.getUrl());
 		super.delete(obj);
 	}
 	
-	private void supprimerPhotoGraph(int id, int idAlbum){
-		String supprPhoto = 
-				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {?photo ?p ?v}} "
-			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
-				+ "		?photo ?p ?v ."
-				+ "		FILTER (?photo = :photo" + id + ")"
-		        + "	}";
-				Sparql.getSparql().requeteCRUD(supprPhoto);
-				
-		String supprPhotoAlbum = 
-				  "DELETE { GRAPH " + Sparql.GRAPH_DEFAULT + " {?album ?p ?v}} "
-			    + " USING " + Sparql.GRAPH_DEFAULT + " WHERE{"
-				+ "		?album ?p ?v ."
-				+ "		FILTER (?album = :album" + idAlbum + " && ?p = :hasPhoto && ?v = :photo" + id + " )"
-		        + "	}";
-				Sparql.getSparql().requeteCRUD(supprPhotoAlbum);
+	@Override
+	public OpenJPAId create(Photo obj) {
+		OpenJPAId id = super.create(obj);
+		obj.genererURL();
+		update(obj);
+		Sparql.getSparql().ajoutPhoto(obj.getId(), obj.getTitre(), obj.getDate(), obj.getPhotographe(), obj.getAlbum().getId(), obj.getOu(), obj.getQui(), obj.getQuoi(), obj.getEvenement());
+		return id;
+	}
+	
+
+	@Override
+	public Photo read(Integer id) {
+		modele.Photo photo = super.read(id);
+		return photo;
 	}
 }

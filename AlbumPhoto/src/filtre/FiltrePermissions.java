@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controleur.Connexion;
+import controleur.Photo;
 import modele.Personne;
 import modele.Utilisateur;
 
@@ -23,6 +24,7 @@ import modele.Utilisateur;
 public class FiltrePermissions implements Filter {
 	
 	public static String ATT_CONNECTION_REQUESTED_URL = "connectionRequestedUrl";
+	public static String PATH_WORKSPACE = "";
 	
 	public static String[] cheminsAccessibles = {"/", "/Connexion", "/ressources/.*", "/Inscription"};
 	public static String[] cheminsAdministration = {"/Utilisateur", "/Personne", "/Album", "/Photo"};
@@ -37,6 +39,12 @@ public class FiltrePermissions implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession();
         
+        request.setCharacterEncoding("UTF-8");
+        
+        if(FiltrePermissions.PATH_WORKSPACE.equals("")){
+        	FiltrePermissions.PATH_WORKSPACE = req.getServletContext().getRealPath("");
+		}
+        
         String path = request.getRequestURI().substring("/AlbumPhoto".length());
         
         for(String cheminAccessible : cheminsAccessibles) {
@@ -47,9 +55,7 @@ public class FiltrePermissions implements Filter {
         		return;
         	}
         }
-        
-        
-        
+
         if(session.getAttribute(Connexion.ATT_USER_SESSION) != null){
         	boolean isAdminPage = false;
         	for(String cheminAdministration : cheminsAdministration) {
@@ -59,7 +65,7 @@ public class FiltrePermissions implements Filter {
         	if(isAdminPage) {
         		Utilisateur utilisateur = (modele.Utilisateur)request.getSession().getAttribute(Connexion.ATT_USER_SESSION);
         		if(utilisateur.getAdmin() == true) chain.doFilter(request, response);
-        		else response.sendRedirect(request.getContextPath() + "/Connexion");
+        		else response.sendRedirect(request.getContextPath() + "/");
         	}
         	else chain.doFilter(request, response);
 		}

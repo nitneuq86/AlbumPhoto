@@ -46,26 +46,7 @@ public class Place extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String place = request.getParameter("place");
 		
-		//On récupère tous 6 premiers résultats correspondant à l'endroit entré par l'utilisateur
-		String requete = "SELECT ?ville ?nomVille "
-				   + "WHERE"
-				   + "{"
-				   + "	?ville a <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> ;"
-				   + "		   foaf:name ?nomVille . "
-				   + "	FILTER(contains(lcase(?nomVille), \"" + place.toLowerCase() + "\"))"
-				   + "} LIMIT 6";
-				
-		//Execution de la requête sur le graph imss
-		ResultSet  resultat =  Sparql.getSparql().requeteSPARQL(requete, "http://dbpedia.org");
-		JsonArray places = new JsonArray();
-		
-		while (resultat.hasNext()) {
-			QuerySolution s = resultat.nextSolution();
-			JsonObject resultatPlace = new JsonObject();
-			resultatPlace.put("place", s.getLiteral("?nomVille").getString());
-			resultatPlace.put("uri", s.getResource("?ville").toString());
-			places.add(resultatPlace);
-		}
+		JsonArray places = Sparql.getSparql().getMatchPlace(place);
 		
 		response.setContentType("text/plain");  
 		response.setCharacterEncoding("UTF-8"); 
